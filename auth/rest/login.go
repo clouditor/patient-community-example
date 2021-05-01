@@ -2,6 +2,9 @@ package rest
 
 import (
 	"auth/db"
+	"crypto/ecdsa"
+	"crypto/elliptic"
+	"crypto/rand"
 	"errors"
 	"net/http"
 	"strconv"
@@ -11,6 +14,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/oxisto/go-httputil/argon2"
 	"github.com/oxisto/go-httputil/auth"
+	"github.com/rs/zerolog/log"
 	"gorm.io/gorm"
 )
 
@@ -23,21 +27,39 @@ type ErrorResponse struct {
 	Error string
 }
 
+var privateKey *ecdsa.PrivateKey
+
+func init() {
+	var err error
+
+	c := elliptic.P256()
+
+	// generate key
+	privateKey, err = ecdsa.GenerateKey(c, rand.Reader)
+	if err != nil {
+		log.Err(err).Msgf("Could not generate key")
+		return
+	}
+
+	if !c.IsOnCurve(privateKey.PublicKey.X, privateKey.PublicKey.Y) {
+		log.Err(err).Msgf("Public key is invalid")
+	}
+}
+
 func NewErrorResponse(msg string) *ErrorResponse {
 	return &ErrorResponse{msg}
 }
 
 // IssueToken issues a JWT token for use of the API
 func IssueToken(sub string, expiry time.Time) (token string, err error) {
-	key := []byte(jwtSecretKey)
-	claims := jwt.NewWithClaims(jwt.SigningMethodHS256,
+	claims := jwt.NewWithClaims(jwt.SigningMethodES256,
 		&jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 24 * 30).Unix(),
 			Subject:   sub,
 		},
 	)
 
-	token, err = claims.SignedString(key)
+	token, err = claims.SignedString(privateKey)
 	return
 }
 
@@ -112,4 +134,18 @@ func UserInfo(c *gin.Context) {
 	user.Password = ""
 
 	c.JSON(http.StatusOK, user)
+}
+
+func JwkCredentials(c *gin.Context) {
+	var publicKey = privateKey.PublicKey
+
+	c.JSON(http.StatusOK, gin.H{"keys": []gin.H{
+		{
+			"status": "ACTIVE",
+			"alg":    "ES256",
+			"curve":  "P-256",
+			"x":      publicKey.X,
+			"y":      publicKey.Y,
+		},
+	}})
 }

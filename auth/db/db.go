@@ -1,6 +1,7 @@
 package db
 
 import (
+	"auth"
 	"fmt"
 	"os"
 
@@ -80,8 +81,11 @@ func Get() *gorm.DB {
 func createInitialAdmin() (err error) {
 	var (
 		initialPassword string
+		initialUsername string
 		passwordBytes   []byte
 	)
+
+	initialUsername = "NurseRatched"
 
 	initialPassword, err = password.GenerateIfNotInEnv("AUTH_DEFAULT_PASSWORD", 16, 2, 0, false, true)
 	if err != nil {
@@ -93,15 +97,15 @@ func createInitialAdmin() (err error) {
 		return fmt.Errorf("hashing: %w", err)
 	}
 
-	// Create the initial admin user
-	db.Create(&User{Username: "admin", Password: string(passwordBytes)})
+	// Create the initial admin (nurse) user
+	err = db.Create(&auth.User{Username: initialUsername, Password: string(passwordBytes), Role: auth.RoleNurse}).Error
 
-	if db.Error != nil {
+	if err != nil {
 		return fmt.Errorf("db: %w", err)
 	}
 
 	// Print out our initial password on the console
-	log.Info().Msgf("Created initial admin user with password: %s\n", initialPassword)
+	log.Info().Msgf("Created initial admin user (%s) with password: %s\n", initialUsername, initialPassword)
 
 	return nil
 }

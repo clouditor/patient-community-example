@@ -15,10 +15,10 @@ By default, a random password is generated, otherwise a default password for the
 AUTH_DEFAULT_PASSWORD=myverysecretpassword ./auth-service
 ```
 
-Example login with the admin user.
+Example login with the admin user (NurseRatched).
 
 ```
-curl -d '{"Username": "admin", "password": "myverysecretpassword"}' -XPOST -v localhost:8080/auth/login
+curl -d '{"Username": "NurseRatched", "password": "myverysecretpassword"}' -XPOST -v localhost:8080/auth/login
 export ACCESS_TOKEN=...
 curl -H "Authorization: Bearer $ACCESS_TOKEN" -XPOST -v localhost:8080/auth/userinfo
 ```
