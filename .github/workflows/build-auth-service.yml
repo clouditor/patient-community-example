@@ -1,4 +1,4 @@
-name: Go
+name: Build Authentication Service
 
 on:
   push:
