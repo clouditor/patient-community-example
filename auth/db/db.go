@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/oxisto/go-httputil/argon2"
 	"github.com/rs/zerolog/log"
@@ -21,6 +22,14 @@ type User struct {
 
 var db *gorm.DB
 
+func EnvOrDefault(env string, def string) string {
+	if s, isSet := os.LookupEnv("AUTH_POSTGRES_HOST"); isSet {
+		return s
+	} else {
+		return def
+	}
+}
+
 func Init(useInMemory bool) (err error) {
 	// used to play around standalone and for unit tests
 	if useInMemory {
@@ -29,9 +38,19 @@ func Init(useInMemory bool) (err error) {
 			return fmt.Errorf("db sqlite connect: %w", err)
 		}
 	} else {
-		dsn := "host=localhost user=postgres password=postgres dbname=postgres port=5432 sslmode=disable"
+		host := EnvOrDefault("AUTH_POSTGRES_HOST", "localhost")
+		user := EnvOrDefault("AUTH_POSTGRES_USER", "postgres")
+		password := EnvOrDefault("AUTH_POSTGRES_PASSWORD", "postgres")
+		dbname := EnvOrDefault("AUTH_POSTGRES_DB", "postgres")
 
-		// otherwise connect to a postgres DB on localhost
+		dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=5432 sslmode=disable",
+			host,
+			user,
+			password,
+			dbname,
+		)
+
+		// otherwise connect to a postgres DB
 		if db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{}); err != nil {
 			return fmt.Errorf("db postgres connect: %w", err)
 		}
