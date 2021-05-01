@@ -1,7 +1,7 @@
 package rest
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -33,6 +33,18 @@ func IssueToken(userID int64, expiry time.Time) (token string, err error) {
 }
 
 func Login(c *gin.Context) {
+	var request LoginRequest
+
+	if err := c.BindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if request.Username != "user" || request.Password != "password" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid credentials"})
+		return
+	}
+
 	var userID int64 = 1
 
 	// tokens expire in 1 day
@@ -51,5 +63,7 @@ func UserInfo(c *gin.Context) {
 	// it seems to be called anyway, so check for auth
 	claims := c.Value(auth.ClaimsContext).(*jwt.StandardClaims)
 
-	fmt.Printf("%+v\n", claims)
+	log.Printf("%+v\n", claims)
+
+	c.JSON(http.StatusOK, gin.H{"username": "some user"})
 }
