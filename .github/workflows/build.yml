@@ -41,3 +41,4 @@ jobs:
       - name: Build
         run: |
           ./gradlew --parallel build
+        working-directory: nurse-api  
