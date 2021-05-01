@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"auth"
 	"auth/db"
 	"crypto/ecdsa"
 	"crypto/elliptic"
@@ -74,7 +75,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	var user db.User
+	var user auth.User
 
 	err = db.Get().Where("username = ?", request.Username).First(&user).Error
 
@@ -114,13 +115,13 @@ func UserInfo(c *gin.Context) {
 		err error
 	)
 	// it seems to be called anyway, so check for auth
-	claims := c.Value(auth.ClaimsContext).(*jwt.StandardClaims)
+	claims := c.Value(hauth.ClaimsContext).(*jwt.StandardClaims)
 
 	if ID, err = strconv.ParseUint(claims.Subject, 10, 64); err != nil {
 		panic(err)
 	}
 
-	var user db.User
+	var user auth.User
 
 	err = db.Get().Find(&user, ID).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
