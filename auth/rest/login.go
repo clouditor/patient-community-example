@@ -137,13 +137,15 @@ func UserInfo(c *gin.Context) {
 }
 
 func JwkCredentials(c *gin.Context) {
+	var publicKey = privateKey.PublicKey
+
 	c.JSON(http.StatusOK, gin.H{"keys": []gin.H{
 		{
 			"status": "ACTIVE",
 			"alg":    "ES256",
 			"curve":  "P-256",
-			"x":      privateKey.X,
-			"y":      privateKey.Y,
+			"x":      publicKey.X,
+			"y":      publicKey.Y,
 		},
 	}})
 }
