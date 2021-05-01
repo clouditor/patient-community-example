@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/groups")
-public class GroupsController {
+public class GroupController {
 
   @GetMapping("/")
   public List<Group> listGroups() {

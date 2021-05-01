@@ -15,6 +15,10 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+    implementation("org.springframework.security.oauth:spring-security-oauth2:2.5.1.RELEASE")
 
     implementation("org.postgresql:postgresql:42.2.20")
 

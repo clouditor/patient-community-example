@@ -1,10 +1,7 @@
 package io.clouditor.examples.patient_community;
 
-import javax.sql.DataSource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 @SpringBootApplication
 public class NurseApp {
@@ -18,7 +15,7 @@ public class NurseApp {
   }
 
   // TODO replace with application.yml (https://stackoverflow.com/a/32843504)
-  @Bean
+  /*@Bean
   public DataSource dataSource() {
     DriverManagerDataSource driver = new DriverManagerDataSource();
     driver.setDriverClassName("org.postgresql.Driver");
@@ -27,5 +24,5 @@ public class NurseApp {
     driver.setPassword("postgres");
 
     return driver;
-  }
+  }*/
 }
