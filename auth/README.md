@@ -26,7 +26,8 @@ curl -H "Authorization: Bearer $ACCESS_TOKEN" -XPOST -v localhost:8080/auth/user
 ## Database Support
 
 By default, an internal sqlite database is used for testing. However, for the full application to work, a real
-database shared with other components is needed. Currently, an postgres DB at localhost is expected.
+database shared with other components is needed. Currently, an postgres DB is expected and can be configured using 
+`AUTH_POSTGRES_HOST` (default: `localhost`), `AUTH_POSTGRES_USER`, `AUTH_POSTGRES_PASSWORD` and `AUTH_POSTGRES_DB`.
 
 ```
 docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres
