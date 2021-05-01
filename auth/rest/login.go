@@ -14,7 +14,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/oxisto/go-httputil/argon2"
-	"github.com/oxisto/go-httputil/auth"
+	hauth "github.com/oxisto/go-httputil/auth"
 	"github.com/rs/zerolog/log"
 	"gorm.io/gorm"
 )
