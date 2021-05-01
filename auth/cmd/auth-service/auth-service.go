@@ -25,7 +25,9 @@ func main() {
 		},
 	)
 
-	if err = db.Init(); err != nil {
+	_, useRealDb := os.LookupEnv("AUTH_USE_REAL_DB")
+
+	if err = db.Init(!useRealDb); err != nil {
 		log.Err(err).Msg("An error occured during DB init")
 	}
 

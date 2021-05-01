@@ -6,6 +6,7 @@ import (
 	"github.com/oxisto/go-httputil/argon2"
 	"github.com/rs/zerolog/log"
 	"github.com/sethvargo/go-password/password"
+	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -20,19 +21,48 @@ type User struct {
 
 var db *gorm.DB
 
-func Init() (err error) {
+func Init(useInMemory bool) (err error) {
+	// used to play around standalone and for unit tests
+	if useInMemory {
+		// use a in-memory DB
+		if db, err = gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{}); err != nil {
+			return fmt.Errorf("db sqlite connect: %w", err)
+		}
+	} else {
+		dsn := "host=localhost user=postgres password=postgres dbname=postgres port=5432 sslmode=disable"
+
+		// otherwise connect to a postgres DB on localhost
+		if db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{}); err != nil {
+			return fmt.Errorf("db postgres connect: %w", err)
+		}
+	}
+
+	// Migrate the schema
+	err = db.AutoMigrate(&User{})
+	if err != nil {
+		return
+	}
+
+	// check, if there are no users
+	var count int64
+	err = db.Find(&User{}).Count(&count).Error
+
+	if count == 0 {
+		return createInitialAdmin()
+	}
+
+	return err
+}
+
+func Get() *gorm.DB {
+	return db
+}
+
+func createInitialAdmin() (err error) {
 	var (
 		initialPassword string
 		passwordBytes   []byte
 	)
-
-	// use a in-memory DB for now
-	if db, err = gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{}); err != nil {
-		return fmt.Errorf("db connect: %w", err)
-	}
-
-	// Migrate the schema
-	db.AutoMigrate(&User{})
 
 	initialPassword, err = password.GenerateIfNotInEnv("AUTH_DEFAULT_PASSWORD", 16, 2, 0, false, true)
 	if err != nil {
@@ -55,8 +85,4 @@ func Init() (err error) {
 	log.Info().Msgf("Created initial admin user with password: %s\n", initialPassword)
 
 	return nil
-}
-
-func Get() *gorm.DB {
-	return db
 }
