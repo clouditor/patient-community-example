@@ -23,7 +23,7 @@ func init() {
 func NewRouter() *gin.Engine {
 	options := auth.DefaultOptions
 	options.JWTKeySupplier = func(token *jwt.Token) (interface{}, error) {
-		return []byte(jwtSecretKey), nil
+		return privateKey.PublicKey, nil
 	}
 	//options.JWTClaims = &model.APIClaims{}
 	options.TokenExtractor = auth.ExtractFromFirstAvailable(
@@ -39,7 +39,8 @@ func NewRouter() *gin.Engine {
 	r.Use(logger.SetLogger())
 
 	r.POST("/auth/login", Login)
-	r.Use(handler.AuthRequired).POST("/auth/userinfo", UserInfo)
+	r.GET("/auth/credentials", JwkCredentials)
+	r.Use(handler.AuthRequired).GET("/auth/userinfo", UserInfo)
 
 	return r
 }
