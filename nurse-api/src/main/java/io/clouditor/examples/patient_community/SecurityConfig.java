@@ -28,11 +28,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.cors()
         .and()
         .authorizeRequests()
-        // .antMatchers(HttpMethod.GET, "/api/v1/**")
-        // .hasAnyAuthority()
-        // .authenticated()
-        // .antMatchers(HttpMethod.POST, "/api/v1/**")
-        // .hasAnyAuthority()
         .anyRequest()
         .authenticated()
         .and()
@@ -59,11 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Bean
   JwtDecoder jwtDecoder(OAuth2ResourceServerProperties properties) {
-    var jwtDecoder =
-        NimbusJwtDecoder.withJwkSetUri(properties.getJwt().getJwkSetUri())
-            .jwsAlgorithm(SignatureAlgorithm.from(properties.getJwt().getJwsAlgorithm()))
-            .build();
-
-    return jwtDecoder;
+    return NimbusJwtDecoder.withJwkSetUri(properties.getJwt().getJwkSetUri())
+        .jwsAlgorithm(SignatureAlgorithm.from(properties.getJwt().getJwsAlgorithm()))
+        .build();
   }
 }
