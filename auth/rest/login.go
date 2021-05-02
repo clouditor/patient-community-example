@@ -6,6 +6,7 @@ import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
+	"encoding/base64"
 	"errors"
 	"net/http"
 	"strconv"
@@ -29,6 +30,11 @@ type ErrorResponse struct {
 }
 
 var privateKey *ecdsa.PrivateKey
+
+type ExtendedClaims struct {
+	*jwt.StandardClaims
+	Scope string `json:"scope"`
+}
 
 func init() {
 	var err error
@@ -54,9 +60,15 @@ func NewErrorResponse(msg string) *ErrorResponse {
 // IssueToken issues a JWT token for use of the API
 func IssueToken(sub string, expiry time.Time) (token string, err error) {
 	claims := jwt.NewWithClaims(jwt.SigningMethodES256,
-		&jwt.StandardClaims{
+		/*&jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 24 * 30).Unix(),
 			Subject:   sub,
+		},*/
+		ExtendedClaims{&jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Hour * 24 * 30).Unix(),
+			Subject:   sub,
+		},
+			"test",
 		},
 	)
 
@@ -138,15 +150,16 @@ func UserInfo(c *gin.Context) {
 }
 
 func JwkCredentials(c *gin.Context) {
-	var publicKey = privateKey.PublicKey
+	publicKey := privateKey.PublicKey
 
 	c.JSON(http.StatusOK, gin.H{"keys": []gin.H{
 		{
-			"status": "ACTIVE",
-			"alg":    "ES256",
-			"curve":  "P-256",
-			"x":      publicKey.X,
-			"y":      publicKey.Y,
+			"kty": "EC",
+			"use": "sig",
+			"alg": "ES256",
+			"crv": "P-256",
+			"x":   base64.RawURLEncoding.EncodeToString(publicKey.X.Bytes()),
+			"y":   base64.RawURLEncoding.EncodeToString(publicKey.Y.Bytes()),
 		},
 	}})
 }

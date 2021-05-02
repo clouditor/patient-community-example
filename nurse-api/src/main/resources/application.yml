@@ -12,5 +12,6 @@ spring:
     oauth2:
       resourceserver:
         jwt:
+          jws-algorithm: ES256
           issuer-uri: http://localhost:8080/auth
-          jwk-set-uri: http://localhost:8080/auth/jwk
+          jwk-set-uri: http://localhost:8080/auth/credentials

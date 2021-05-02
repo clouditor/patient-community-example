@@ -5,13 +5,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
+import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -22,14 +23,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     var defaultAuthenticationEntryPoint = new BearerTokenAuthenticationEntryPoint();
+    var defaultAccessDeniedHandler = new BearerTokenAccessDeniedHandler();
 
     http.cors()
         .and()
         .authorizeRequests()
-        .antMatchers(HttpMethod.GET, "/api/**")
-        .hasAnyAuthority()
-        .antMatchers(HttpMethod.POST, "/api/**")
-        .hasAnyAuthority()
+        // .antMatchers(HttpMethod.GET, "/api/v1/**")
+        // .hasAnyAuthority()
+        // .authenticated()
+        // .antMatchers(HttpMethod.POST, "/api/v1/**")
+        // .hasAnyAuthority()
         .anyRequest()
         .authenticated()
         .and()
@@ -43,13 +46,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
               logger.error(authException.getMessage());
 
               defaultAuthenticationEntryPoint.commence(request, response, authException);
+            })
+        .accessDeniedHandler(
+            (request, response, accessDeniedException) -> {
+
+              // this basically just logs the exception
+              logger.error(accessDeniedException.getMessage());
+
+              defaultAccessDeniedHandler.handle(request, response, accessDeniedException);
             });
   }
 
   @Bean
   JwtDecoder jwtDecoder(OAuth2ResourceServerProperties properties) {
-    var jwtDecoder = NimbusJwtDecoder.withJwkSetUri(properties.getJwt().getJwkSetUri()).build();
-    // jwtDecoder.setClaimSetConverter(new OrganizationSubClaimAdapter());
+    var jwtDecoder =
+        NimbusJwtDecoder.withJwkSetUri(properties.getJwt().getJwkSetUri())
+            .jwsAlgorithm(SignatureAlgorithm.from(properties.getJwt().getJwsAlgorithm()))
+            .build();
 
     return jwtDecoder;
   }
