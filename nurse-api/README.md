@@ -4,6 +4,12 @@ This contains the API for the *Nurse Portal* process.
 
 ## Usage
 
+The applicaiton can be started using gradle.
+
+```
+./gradlew bootRun
+```
+
 The nurse is basically an administrator. They can list and manage users. 
 
 ```

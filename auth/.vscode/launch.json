@@ -19,7 +19,7 @@
             "mode": "auto",
             "program": "${workspaceFolder}/cmd/auth-service/auth-service.go",
             "cwd": "${workspaceFolder}",
-            "env": {"AUTH_USE_REAL_DB": true}
+            "env": {"AUTH_USE_REAL_DB": true }
         }
     ]
 }

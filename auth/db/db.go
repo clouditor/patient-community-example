@@ -52,7 +52,7 @@ func Init(useInMemory bool) (err error) {
 	// Migrate the schema
 	err = db.AutoMigrate(&auth.User{})
 	if err != nil {
-		return
+		return err
 	}
 
 	// check, if there are no users

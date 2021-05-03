@@ -1,6 +1,7 @@
 package io.clouditor.examples.patient_community.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 
 @Entity
@@ -9,6 +10,7 @@ public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @JsonProperty
   private Long id;
 
   public enum Role {
@@ -19,8 +21,12 @@ public class User {
 
   String username;
 
+  @Column(name = "first_name")
+  @JsonProperty
   String firstName;
 
+  @Column(name = "last_name")
+  @JsonProperty
   String lastName;
 
   /** Do NOT return the password in the JSON representation / REST API. */
