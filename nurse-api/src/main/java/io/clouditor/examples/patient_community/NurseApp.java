@@ -13,16 +13,4 @@ public class NurseApp {
   public static void main(String[] args) {
     SpringApplication.run(NurseApp.class, args);
   }
-
-  // TODO replace with application.yml (https://stackoverflow.com/a/32843504)
-  /*@Bean
-  public DataSource dataSource() {
-    DriverManagerDataSource driver = new DriverManagerDataSource();
-    driver.setDriverClassName("org.postgresql.Driver");
-    driver.setUrl("jdbc:postgresql://localhost:5432/postgres");
-    driver.setUsername("postgres");
-    driver.setPassword("postgres");
-
-    return driver;
-  }*/
 }

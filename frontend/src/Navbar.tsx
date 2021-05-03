@@ -11,6 +11,9 @@ export const Navbar: React.FunctionComponent = () =>
                 <Link to={{ pathname: "/users" }}>Users</Link>
             </li>
             <li>
+                <Link to={{ pathname: "/groups" }}>Groups</Link>
+            </li>
+            <li>
                 <Link to={{ pathname: "/login" }}>Login</Link>
             </li>
         </ul>

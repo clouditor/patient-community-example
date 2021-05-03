@@ -2,29 +2,27 @@ import React from "react";
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export interface User {
+export interface Group {
     id: number
-    username: string
-    firstName: string
-    lastName: string
+    name: string
 }
 
-export interface UsersState {
-    users: User[];
+export interface GroupsState {
+    groups: Group[];
 }
 
-export class Users extends React.Component<{}, UsersState> {
+export class Groups extends React.Component<{}, GroupsState> {
 
     constructor(props: {}) {
         super(props);
 
         this.state = {
-            users: []
+            groups: []
         }
     }
 
     public componentDidMount() {
-        const apiUrl = `/api/v1/users`;
+        const apiUrl = `/api/v1/groups`;
 
         const token = localStorage.getItem("access_token");
 
@@ -34,37 +32,33 @@ export class Users extends React.Component<{}, UsersState> {
             }
         })
             .then((res) => res.json())
-            .then((users) => {
-                this.setState({ users: users })
+            .then((groups) => {
+                this.setState({ groups: groups })
             });
     }
 
     public render() {
-        const { users } = this.state;
+        const { groups } = this.state;
 
         return <div>
             <Table striped bordered hover>
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Username</th>
+                        <th>Name</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((user: User) =>
-                        <tr key={user.username}>
-                            <td>{user.id}</td>
-                            <td>{user.firstName}</td>
-                            <td>{user.lastName}</td>
-                            <td>{user.username}</td>
+                    {groups.map((group: Group) =>
+                        <tr key={group.name}>
+                            <td>{group.id}</td>
+                            <td>{group.name}</td>
                         </tr>
                     )}
                 </tbody>
             </Table>
 
-            <Link to="/users/new"><Button>New</Button></Link>
+            <Link to="/groups/new"><Button>New</Button></Link>
         </div>
     }
 }

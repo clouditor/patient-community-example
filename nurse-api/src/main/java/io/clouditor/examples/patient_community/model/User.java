@@ -19,6 +19,7 @@ public class User {
     RESEARCHER
   }
 
+  @Column(unique = true)
   String username;
 
   @Column(name = "first_name")
