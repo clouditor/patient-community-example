@@ -72,12 +72,16 @@ func Get() *gorm.DB {
 
 func createInitialAdmin() (err error) {
 	var (
-		initialPassword string
-		initialUsername string
-		passwordBytes   []byte
+		initialPassword  string
+		initialUsername  string
+		initialFirstName string
+		initialLastName  string
+		passwordBytes    []byte
 	)
 
 	initialUsername = "NurseRatched"
+	initialFirstName = "Nurse"
+	initialLastName = "Ratched"
 
 	initialPassword, err = password.GenerateIfNotInEnv("AUTH_DEFAULT_PASSWORD", 16, 2, 0, false, true)
 	if err != nil {
@@ -90,7 +94,12 @@ func createInitialAdmin() (err error) {
 	}
 
 	// Create the initial admin (nurse) user
-	err = db.Create(&auth.User{Username: initialUsername, Password: string(passwordBytes), Role: auth.RoleNurse}).Error
+	err = db.Create(&auth.User{
+		Username:  initialUsername,
+		FirstName: initialFirstName,
+		LastName:  initialLastName,
+		Password:  string(passwordBytes),
+		Role:      auth.RoleNurse}).Error
 
 	if err != nil {
 		return fmt.Errorf("db: %w", err)

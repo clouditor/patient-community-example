@@ -19,6 +19,10 @@ public class User {
 
   String username;
 
+  String firstName;
+
+  String lastName;
+
   /** Do NOT return the password in the JSON representation / REST API. */
   @JsonIgnore String password;
 
