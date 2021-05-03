@@ -1,5 +1,6 @@
 import React from "react";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { UserRow } from "./UserRow";
 
 export interface User {
@@ -42,19 +43,23 @@ export class Users extends React.Component<{}, UsersState> {
     public render() {
         const { users } = this.state;
 
-        return <Table striped bordered hover>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Username</th>
-                </tr>
-            </thead>
-            <tbody>
-                {users.map((v: User) =>
-                    <UserRow key={v.username} user={v}></UserRow>)}
-            </tbody>
-        </Table>
+        return <div>
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Username</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {users.map((v: User) =>
+                        <UserRow key={v.username} user={v}></UserRow>)}
+                </tbody>
+            </Table>
+
+            <Link to="/users/new"><Button>New</Button></Link>
+        </div>
     }
 }

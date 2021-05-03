@@ -4,6 +4,7 @@ import './App.css';
 import { Home } from './Home';
 import { Login } from './Login';
 import { Navbar } from './Navbar';
+import { NewUser } from './NewUser';
 import { Users } from './Users';
 
 function App() {
@@ -12,7 +13,8 @@ function App() {
       <Navbar></Navbar>
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route path="/users" component={Users} />
+        <Route exact path="/users" component={Users} />
+        <Route path="/users/new" component={NewUser} />
         <Route path="/login" component={Login} />
       </Switch>
     </Router>

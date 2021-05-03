@@ -7,6 +7,10 @@ public class CreateUserRequest {
 
   @JsonProperty String username;
 
+  @JsonProperty String firstName;
+
+  @JsonProperty String lastName;
+
   @JsonProperty String password;
 
   @JsonProperty User.Role role;
