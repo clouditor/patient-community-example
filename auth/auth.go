@@ -11,8 +11,9 @@ const RoleResearcher uint8 = 2
 type User struct {
 	gorm.Model
 
-	Username string `gorm:"unique"`
-	Role     uint8
-	Name     string
-	Password string
+	Username  string `gorm:"unique"`
+	Role      uint8
+	FirstName string
+	LastName  string
+	Password  string
 }

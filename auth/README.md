@@ -31,5 +31,5 @@ database shared with other components is needed. Currently, an postgres DB is ex
 
 ```
 docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres
-export AUTH_USE_REAL_DB=1 ./auth-service
+AUTH_USE_REAL_DB=1 ./auth-service
 ```

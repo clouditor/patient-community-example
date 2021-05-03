@@ -25,7 +25,7 @@ func NewRouter() *gin.Engine {
 	options.JWTKeySupplier = func(token *jwt.Token) (interface{}, error) {
 		return privateKey.PublicKey, nil
 	}
-	//options.JWTClaims = &model.APIClaims{}
+	options.JWTClaims = &ExtendedClaims{}
 	options.TokenExtractor = auth.ExtractFromFirstAvailable(
 		auth.ExtractTokenFromCookie("token"),
 		auth.ExtractTokenFromHeader)

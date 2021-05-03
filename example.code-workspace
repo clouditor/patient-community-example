@@ -5,6 +5,12 @@
 		},
 		{
 			"path": "auth"
+		},
+		{
+			"path": "nurse-api"
+		},
+		{
+			"path": "frontend"
 		}
 	],
 	"settings": {}

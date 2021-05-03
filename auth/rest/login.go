@@ -1,10 +1,12 @@
 package rest
 
 import (
+	"auth"
 	"auth/db"
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
+	"encoding/base64"
 	"errors"
 	"net/http"
 	"strconv"
@@ -13,7 +15,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/oxisto/go-httputil/argon2"
-	"github.com/oxisto/go-httputil/auth"
+	hauth "github.com/oxisto/go-httputil/auth"
 	"github.com/rs/zerolog/log"
 	"gorm.io/gorm"
 )
@@ -28,6 +30,11 @@ type ErrorResponse struct {
 }
 
 var privateKey *ecdsa.PrivateKey
+
+type ExtendedClaims struct {
+	*jwt.StandardClaims
+	Scope string `json:"scope"`
+}
 
 func init() {
 	var err error
@@ -53,9 +60,15 @@ func NewErrorResponse(msg string) *ErrorResponse {
 // IssueToken issues a JWT token for use of the API
 func IssueToken(sub string, expiry time.Time) (token string, err error) {
 	claims := jwt.NewWithClaims(jwt.SigningMethodES256,
-		&jwt.StandardClaims{
+		/*&jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 24 * 30).Unix(),
 			Subject:   sub,
+		},*/
+		ExtendedClaims{&jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Hour * 24 * 30).Unix(),
+			Subject:   sub,
+		},
+			"test",
 		},
 	)
 
@@ -74,7 +87,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	var user db.User
+	var user auth.User
 
 	err = db.Get().Where("username = ?", request.Username).First(&user).Error
 
@@ -114,13 +127,13 @@ func UserInfo(c *gin.Context) {
 		err error
 	)
 	// it seems to be called anyway, so check for auth
-	claims := c.Value(auth.ClaimsContext).(*jwt.StandardClaims)
+	claims := c.Value(hauth.ClaimsContext).(*jwt.StandardClaims)
 
 	if ID, err = strconv.ParseUint(claims.Subject, 10, 64); err != nil {
 		panic(err)
 	}
 
-	var user db.User
+	var user auth.User
 
 	err = db.Get().Find(&user, ID).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -137,15 +150,16 @@ func UserInfo(c *gin.Context) {
 }
 
 func JwkCredentials(c *gin.Context) {
-	var publicKey = privateKey.PublicKey
+	publicKey := privateKey.PublicKey
 
 	c.JSON(http.StatusOK, gin.H{"keys": []gin.H{
 		{
-			"status": "ACTIVE",
-			"alg":    "ES256",
-			"curve":  "P-256",
-			"x":      publicKey.X,
-			"y":      publicKey.Y,
+			"kty": "EC",
+			"use": "sig",
+			"alg": "ES256",
+			"crv": "P-256",
+			"x":   base64.RawURLEncoding.EncodeToString(publicKey.X.Bytes()),
+			"y":   base64.RawURLEncoding.EncodeToString(publicKey.Y.Bytes()),
 		},
 	}})
 }
