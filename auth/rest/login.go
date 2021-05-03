@@ -57,8 +57,8 @@ func NewErrorResponse(msg string) *ErrorResponse {
 	return &ErrorResponse{msg}
 }
 
-// IssueToken issues a JWT token for use of the API
-func IssueToken(sub string, expiry time.Time) (token string, err error) {
+// issueToken issues a JWT token for use of the API
+func issueToken(sub string, scope string, expiry time.Time) (token string, err error) {
 	claims := jwt.NewWithClaims(jwt.SigningMethodES256,
 		/*&jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 24 * 30).Unix(),
@@ -68,7 +68,7 @@ func IssueToken(sub string, expiry time.Time) (token string, err error) {
 			ExpiresAt: time.Now().Add(time.Hour * 24 * 30).Unix(),
 			Subject:   sub,
 		},
-			"test",
+			scope,
 		},
 	)
 
@@ -112,8 +112,20 @@ func Login(c *gin.Context) {
 	// tokens expire in 1 day
 	expiry := time.Now().Add(time.Hour * 24)
 
+	// set the scope according to the role name
+	var scope string = ""
+	if user.Role == 0 {
+		scope = "patient"
+	} else if user.Role == 1 {
+		scope = "nurse"
+	} else if user.Role == 2 {
+		scope = "researcher"
+	}
+
+	var sub string = strconv.FormatInt(int64(user.ID), 10)
+
 	// issue an authentication token for our own API
-	token, err := IssueToken(strconv.FormatInt(int64(user.ID), 10), expiry)
+	token, err := issueToken(sub, scope, expiry)
 	if err != nil {
 		panic(err)
 	}

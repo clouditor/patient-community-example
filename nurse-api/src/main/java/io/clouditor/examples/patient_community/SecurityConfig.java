@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .authorizeRequests()
         .anyRequest()
-        .authenticated()
+        .hasAuthority("SCOPE_nurse")
         .and()
         .oauth2ResourceServer()
         .jwt()
