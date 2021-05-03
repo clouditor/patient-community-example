@@ -20,7 +20,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.security.oauth:spring-security-oauth2:2.5.1.RELEASE")
 
-    implementation("org.bouncycastle:bcprov-jdk15on:1.64") // neded for argon2
+    implementation("org.bouncycastle:bcprov-jdk15on:1.68") // neded for argon2
 
     implementation("org.postgresql:postgresql:42.2.20")
 
