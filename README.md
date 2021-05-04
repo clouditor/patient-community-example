@@ -1,9 +1,9 @@
 # patient-community-example
 
-This contains an example cloud service for a Patient Community, inspired by the LINDDUN example privacy analysis[1] [2] which in turn is inspired by health data platforms, like https://www.patientslikeme.com/, where people can share their medical information with the purpose of comparing it to others with a similar medical history.
+This contains an example cloud service for a Patient Community, inspired by the LINDDUN example privacy analysis [1] [2] which in turn is inspired by health data platforms, like https://www.patientslikeme.com/, where people can share their medical information with the purpose of comparing it to others with a similar medical history.
 
-LINDDUN[3] is a privacy threat modeling approach similar to STRIDE (which is for security threat modeling).
-In LINDDUN GO[4], the authors have created an adapted, more leightweight version that has a reduced set of threats.
+LINDDUN [3] is a privacy threat modeling approach similar to STRIDE (which is for security threat modeling).
+In LINDDUN GO [4], the authors have created an adapted, more leightweight version that has a reduced set of threats.
 
 ## Architecture
 
@@ -16,6 +16,17 @@ The cloud service is built in a micro-service pattern and consists of the follow
 * *patient manager*
 * *statistics* processor
 
+## Prerequisites
+
+To build and start all the services locally, at least the following tools need to be available:
+* NodeJS with `yarn` installed
+* Java 11+
+* Go 1.16
+* Docker
+
+## Usage
+
+All services can be started with a simple start script `source ./start.sh`. In the future `docker-compose` support will be added. After starting, the frontend is available on http://localhost:3000. `jobs` will display a list of running services.
 
 [1]: https://7e71aeba-b883-4889-aee9-a3064f8be401.filesusr.com/ugd/cc602e_b4f5b1fc19da49a9bb8e39f0933cadab.pdf
 [2]: https://www.linddun.org/downloads
