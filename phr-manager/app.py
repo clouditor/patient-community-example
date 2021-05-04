@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 from jwt.algorithms import ECAlgorithm
 from pymongo import MongoClient
 from flask_jwt_extended import JWTManager
