@@ -28,6 +28,8 @@ To build and start all the services locally, at least the following tools need t
 
 All services can be started with a simple start script `source ./start.sh`. In the future `docker-compose` support will be added. After starting, the frontend is available on http://localhost:3000. `jobs` will display a list of running services.
 
+## References
+
 [1]: https://7e71aeba-b883-4889-aee9-a3064f8be401.filesusr.com/ugd/cc602e_b4f5b1fc19da49a9bb8e39f0933cadab.pdf
 [2]: https://www.linddun.org/downloads
 
