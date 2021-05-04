@@ -1,4 +1,6 @@
-# patient-community-example
+# Patient Community Example
+
+[![Build](https://github.com/clouditor/patient-community-example/actions/workflows/build.yml/badge.svg)](https://github.com/clouditor/patient-community-example/actions/workflows/build.yml)
 
 This contains an example cloud service for a Patient Community, inspired by the LINDDUN example privacy analysis [1] [2] which in turn is inspired by health data platforms, like https://www.patientslikeme.com/, where people can share their medical information with the purpose of comparing it to others with a similar medical history.
 
