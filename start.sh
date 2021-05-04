@@ -34,7 +34,7 @@ else
 
     if [[ "${SERVICES[@]}" =~ "phr-manager" ]]; then
         pushd phr-manager
-            ./app.py
+            ./app.py &
         popd
     fi
 
