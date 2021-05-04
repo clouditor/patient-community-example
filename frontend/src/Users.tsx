@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { UserRow } from "./UserRow";
 
 export interface User {
     id: number
@@ -54,8 +53,14 @@ export class Users extends React.Component<{}, UsersState> {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((v: User) =>
-                        <UserRow key={v.username} user={v}></UserRow>)}
+                    {users.map((user: User) =>
+                        <tr key={user.username}>
+                            <td>{user.id}</td>
+                            <td>{user.firstName}</td>
+                            <td>{user.lastName}</td>
+                            <td>{user.username}</td>
+                        </tr>
+                    )}
                 </tbody>
             </Table>
 

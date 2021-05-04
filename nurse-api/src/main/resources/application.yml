@@ -1,5 +1,7 @@
 server:
   port: 8081
+  error:
+    include-message: always
 
 spring:
   datasource:
@@ -8,6 +10,7 @@ spring:
     password: postgres
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: true
   security:
     oauth2:
       resourceserver:
