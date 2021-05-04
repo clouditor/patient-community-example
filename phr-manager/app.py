@@ -7,7 +7,7 @@ from flask_jwt_extended import get_jwt
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import create_access_token
-from flask import Flask
+from flask import Flask, request
 from bson import json_util
 import sys
 import logging
@@ -39,15 +39,19 @@ def post_data():
     user_id = get_jwt_identity()
     claims = get_jwt()
 
+    content = request.json
+
+    if content is None:
+        return json.dumps({"error": "Empty content"}), 400
+
     if claims["scope"] != "patient":
         return json.dumps({"error": "Invalid scope"}), 403
 
-    phr = {"user_id": user_id,
-           "blood_pressure": 180}
+    phr = {"user_id": user_id} | content
 
     phr_id = collection.insert_one(phr).inserted_id
 
-    print("Inserted record %s" % phr_id)
+    logging.info("Inserted record %s" % phr_id)
 
     return json_util.dumps(phr), 200
 

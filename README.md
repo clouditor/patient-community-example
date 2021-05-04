@@ -25,6 +25,7 @@ To build and start all the services locally, at least the following tools need t
 * Java 11+
 * Go 1.16
 * Docker
+* Python 3.9
 
 ## Usage
 
