@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { AddGroupMember } from './AddGroupMember';
 import './App.css';
 import { Groups } from './Groups';
 import { Home } from './Home';
@@ -19,6 +20,7 @@ function App() {
         <Route path="/users/new" component={NewUser} />
         <Route exact path="/groups" component={Groups} />
         <Route path="/groups/new" component={NewGroup} />
+        <Route path="/groups/:id/members/add" component={AddGroupMember} />
         <Route path="/login" component={Login} />
       </Switch>
     </Router>

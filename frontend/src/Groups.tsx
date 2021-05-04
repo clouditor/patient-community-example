@@ -1,10 +1,12 @@
 import React from "react";
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { User } from "./Users";
 
 export interface Group {
     id: number
     name: string
+    members: User[];
 }
 
 export interface GroupsState {
@@ -46,6 +48,7 @@ export class Groups extends React.Component<{}, GroupsState> {
                     <tr>
                         <th>#</th>
                         <th>Name</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,6 +56,9 @@ export class Groups extends React.Component<{}, GroupsState> {
                         <tr key={group.name}>
                             <td>{group.id}</td>
                             <td>{group.name}</td>
+                            <td>{group.members.map(user => <div>{user.username}</div>)}
+                                <Link to={`/groups/${group.id}/members/add`}><Button>Add Member</Button></Link>
+                            </td>
                         </tr>
                     )}
                 </tbody>
