@@ -13,9 +13,9 @@ yarn install
 yarn start &
 popd
 
-#pushd phr-manager
-#./app.py
-#popd
+pushd phr-manager
+./app.py
+popd
 
 pushd auth
 go build cmd/auth-service/auth-service.go
