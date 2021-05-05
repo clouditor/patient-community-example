@@ -4,13 +4,10 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "go: build",
+            "label": "python: install",
             "type": "shell",
-            "command": "go build cmd/auth-service/auth-service.go",
-            "problemMatcher": [
-                "$go"
-            ],
-            "group": "build"
+            "command": "python3 -m venv .venv && source .venv/bin/activate && python3 -m pip install -r requirements.txt",
+            "problemMatcher": []
         }
     ]
 }

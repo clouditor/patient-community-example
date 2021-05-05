@@ -31,6 +31,8 @@ To build and start all the services locally, at least the following tools need t
 
 All services can be started with a simple start script `source ./start.sh all`. After starting, the frontend is available on http://localhost:3000. `jobs` will display a list of running services. Individual services can also be started using `source ./start.sh [service ...]`.
 
+Alternativly, if Visual Studio Code is used, a *compound launch configuration* called **Launch all services** can be used, which automatically starts all the relevant services and allows them to be debugged.
+
 In the future `docker-compose` support will be added.
 
 ## References

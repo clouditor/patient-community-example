@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Flask",
+            "name": "Launch phr-manager",
             "type": "python",
             "request": "launch",
             "module": "flask",
@@ -18,7 +18,8 @@
                 "run",
                 "--no-debugger"
             ],
-            "jinja": true
+            "jinja": true,
+            "preLaunchTask": "python: install"
         }
-    ]
+    ],
 }

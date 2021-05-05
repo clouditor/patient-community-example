@@ -1,0 +1,20 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "react-scripts: start",
+			"type": "npm",
+			"script": "start",
+			"problemMatcher": "$tsc-watch",
+			"detail": "react-scripts start",
+			"isBackground": true,
+			"presentation": {
+				"reveal": "never"
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}

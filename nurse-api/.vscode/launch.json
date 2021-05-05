@@ -1,0 +1,19 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch nurse-api",
+            "request": "launch",
+            "mainClass": "io.clouditor.examples.patient_community.NurseApp",
+            "classPaths": [
+                "${workspaceFolder}/build/classes/java/main",
+                "build/install/nurse-api/lib/*"
+            ],
+            "preLaunchTask": "gradle: installDist"
+        }
+    ]
+}

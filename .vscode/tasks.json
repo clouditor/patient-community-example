@@ -4,12 +4,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "go: build",
+            "label": "docker: start databases",
             "type": "shell",
-            "command": "go build cmd/auth-service/auth-service.go",
-            "problemMatcher": [
-                "$go"
-            ],
+            "command": "docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres && docker run -d -p 27017:27017 mongo",
             "group": "build"
         }
     ]

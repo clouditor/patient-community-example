@@ -12,6 +12,16 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "gradle: installDist",
+            "type": "shell",
+            "command": "./gradlew installDist",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }
