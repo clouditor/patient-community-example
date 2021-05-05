@@ -1,5 +1,9 @@
 {
+  "labels": ["dependencies"],
   "extends": [
     "config:base"
-  ]
+  ],
+  "patch": {
+    "enabled": false
+  }
 }
