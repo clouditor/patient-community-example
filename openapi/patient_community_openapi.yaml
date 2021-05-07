@@ -1,0 +1,183 @@
+openapi: "3.0.0"
+info:
+  description: "patient platform api"
+  version: "1.0.0"
+  title: "Patient Community Example"
+tags:
+- name: "auth"
+  description: "auth api"
+- name: "nurse"
+  description: "nurse frontend for managing users"
+- name: "patient manager"
+  description: "internal patient manager for nurses"
+- name: "patient"
+  description: "patient frontend"
+- name: "phr"
+  description: "phr api"
+- name: "group phr"
+  description: "group phr api"
+- name: "researcher api"
+  description: "researcher frontend"
+- name: "statistics api"
+  description: "internal statistics api for researchers"
+- name: "disease api"
+  description: "disease api"
+paths:
+  /auth/login:
+    post:
+      tags:
+      - "auth"
+      summary: "user login and token creation"
+      operationId: "auth"
+      requestBody:
+        description: specifies the username/password to login with
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: "OK"
+        "404":
+          description: "username/password combination not found"
+  /auth/credentials:
+    get:
+      tags:
+      - "auth"
+      summary: "get JWK-compliant certificates"
+      description: "Retrieves JWK-compliant certificates used in the JWT signing process"
+      operationId: "authCreds"
+      responses:
+        "200":
+          description: "OK"
+        "401":
+          description: "Unauthorized"
+  /api/v1/users:
+    post:
+      tags:
+      - "nurse"
+      summary: "Add a new user"
+      description: "Add a new user"
+      operationId: "addUser"
+      requestBody:
+        description: specifies the user object
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - username
+              - password
+              - role
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                role:
+                  type: string
+                  enum: ["NURSE", "PATIENT", "RESEARCHER"]
+      responses:
+        "201":
+          description: "Created"
+        "400":
+          description: "Invalid"
+      security:
+        - OAuth2:
+          - write:users
+  /api/v1/data:
+    post:
+      tags:
+      - "phr"
+      summary: "Add a new user"
+      description: "Add new health datta"
+      operationId: "addData"
+      requestBody:
+        description: specifies the health data object
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        "201":
+          description: "Created"
+        "400":
+          description: "Invalid"
+      security:
+        - OAuth2:
+          - write:data
+  /api/v1/statistics:
+    get:
+      tags:
+      - "statistics api"
+      summary: "Get statistics"
+      description: "Get statistics"
+      operationId: "getStats"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: string
+        "403":
+          description: "Unauthorized"
+      security:
+        - OAuth2:
+          - get:stats  
+  /api/v1/groupdata:
+    get:
+      tags:
+      - "group phr"
+      summary: "Get group phr"
+      description: "Get group phr"
+      operationId: "getGroupPhr"
+      responses:
+        "200":
+          description: "OK"
+        "403":
+          description: "Unauthorized"
+      security:
+        - OAuth2:
+          - get:groupphr
+  /api/v1/symptoms:
+    get:
+      tags:
+      - "disease api"
+      summary: "Get symptoms"
+      description: "Get symptoms"
+      operationId: "getSymptoms"
+      responses:
+        "200":
+          description: "OK"
+        "403":
+          description: "Unauthorized"
+      security:
+        - OAuth2:
+          - get:symptoms
+          - get:symptoms
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: /auth/login
+          tokenUrl: /auth/credentials
+          scopes:
+            write:users: create new users
+            write:data: create new phr data
+            get:stats: get statistics
+            get:groupphr: get group phr
+            get:symptoms: get symptoms
