@@ -13,7 +13,7 @@ require (
 	github.com/oxisto/go-httputil v1.0.0
 	github.com/rs/zerolog v1.21.0
 	github.com/sethvargo/go-password v0.2.1-0.20210501151719-2d0677627a51
-	gorm.io/driver/postgres v1.0.8
+	gorm.io/driver/postgres v1.1.0
 	gorm.io/driver/sqlite v1.1.4
 	gorm.io/gorm v1.21.9
 )
