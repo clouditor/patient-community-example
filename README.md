@@ -2,21 +2,26 @@
 
 [![Build](https://github.com/clouditor/patient-community-example/actions/workflows/build.yml/badge.svg)](https://github.com/clouditor/patient-community-example/actions/workflows/build.yml)
 
-This contains an example cloud service for a Patient Community, inspired by the LINDDUN example privacy analysis [1] [2] which in turn is inspired by health data platforms, like https://www.patientslikeme.com/, where people can share their medical information with the purpose of comparing it to others with a similar medical history.
+This contains an example cloud service for a Patient Community, inspired by the LINDDUN example privacy analysis [[1]] [[2]] which in turn is inspired by health data platforms, where people can share their medical information with the purpose of comparing it to others with a similar medical history.
 
 LINDDUN [3] is a privacy threat modeling approach similar to STRIDE (which is for security threat modeling).
 In LINDDUN GO [4], the authors have created an adapted, more leightweight version that has a reduced set of threats.
 
 ## Architecture
 
-The cloud service is built in a micro-service pattern and consists of the following components / micro-services:
+The cloud service is built in a polyglot micro-service pattern and consists of the following components / micro-services:
 
-* *frontend* micro-service consisting of the three sub-components *patient frontend*, *researcher frontend* and *nurse frontend*. 
-* *auth* micro-service, called *session manager* in the original LINDDUN paper
-* *disease* service
-* *PHR* service, comprised of the *group PHR controller* and *PHR manager*
-* *patient manager*
-* *statistics* processor
+| Service                | Description                                                                                                            |   Language |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------: |
+| *frontend*             | The UI frontend consisting of the three sub-components *patient frontend*, *researcher frontend* and *nurse frontend*. | TypeScript |
+| *auth*                 | Authentication backend, issues tokens for the users groups. Called *session manager* in the original LINDDUN paper     |         Go |
+| *disease service*      | TODO                                                                                                                   |
+| *group PHR controller* | TODO                                                                                                                   |     NodeJS |
+| *phr-manager*          | Manages personal health records (PHR) of individual patients                                                           |     Python |
+| *nurse-api*            | Manages users and roles. Called *patient manager* in the original LUNDDUN paper                                        |       Java |
+| *statistics*           | TODO                                                                                                                   |
+
+An overview of the different APIs can be found in an [OpenAPI specification](https://github.com/clouditor/patient-community-example/blob/main/openapi/patient_community_openapi.yaml).
 
 ## Prerequisites
 
