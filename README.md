@@ -21,7 +21,7 @@ The cloud service is built in a polyglot micro-service pattern and consists of t
 | *nurse-api*            | Manages users and roles. Called *patient manager* in the original LUNDDUN paper                                        |       Java |
 | *statistics*           | TODO                                                                                                                   |
 
-An overview of the different APIs can be found in an [OpenAPI specification](./openapi/patient_community_openapi.yml).
+An overview of the different APIs can be found in an [OpenAPI specification](https://github.com/clouditor/patient-community-example/blob/main/openapi/patient_community_openapi.yaml).
 
 ## Prerequisites
 
