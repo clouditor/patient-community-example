@@ -8,16 +8,16 @@ tags:
   description: "auth api"
 - name: "nurse"
   description: "nurse frontend for managing users"
-- name: "patient manager"
-  description: "internal patient manager for nurses"
 - name: "patient"
   description: "patient frontend"
+- name: "researcher api"
+  description: "researcher frontend"
+- name: "patient manager"
+  description: "internal patient manager for nurses"
 - name: "phr"
   description: "phr api"
 - name: "group phr"
   description: "group phr api"
-- name: "researcher api"
-  description: "researcher frontend"
 - name: "statistics api"
   description: "internal statistics api for researchers"
 - name: "disease api"
@@ -62,45 +62,62 @@ paths:
         "401":
           description: "Unauthorized"
   /api/v1/users:
+    get:
+      tags:
+      - "patient manager"
+      summary: "List users"
+      operationId: "listUsers"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
     post:
       tags:
-      - "nurse"
-      summary: "Add a new user"
-      description: "Add a new user"
-      operationId: "addUser"
+      - "patient manager"
+      summary: "Crete new user"
+      operationId: "newUser"
       requestBody:
         description: specifies the user object
         required: true
         content:
           application/json:
             schema:
-              type: object
-              required:
-              - username
-              - password
-              - role
-              properties:
-                username:
-                  type: string
-                password:
-                  type: string
-                role:
-                  type: string
-                  enum: ["NURSE", "PATIENT", "RESEARCHER"]
+              $ref: '#/components/schemas/User'
       responses:
         "201":
           description: "Created"
         "400":
           description: "Invalid"
-      security:
-        - OAuth2:
-          - write:users
+  /api/v1/groups:
+    post:
+      tags:
+      - "patient manager"
+      summary: "Add a new group"
+      description: "Add a new group"
+      operationId: "addGroup"
+      requestBody:
+        description: specifies the group object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Group'
+      responses:
+        "201":
+          description: "Created"
+        "400":
+          description: "Invalid"
   /api/v1/data:
     post:
       tags:
       - "phr"
-      summary: "Add a new user"
-      description: "Add new health datta"
+      summary: "Add a new data record"
+      description: "Add new health data record"
       operationId: "addData"
       requestBody:
         description: specifies the health data object
@@ -108,15 +125,38 @@ paths:
         content:
           application/json:
             schema:
-              type: string
+              $ref: '#/components/schemas/HealthRecord'
       responses:
         "201":
           description: "Created"
         "400":
           description: "Invalid"
-      security:
-        - OAuth2:
-          - write:data
+  /api/v1/data/{recordId}:
+    put:
+      tags:
+      - "phr"
+      summary: "Update a new user"
+      description: "Update new health data"
+      operationId: "updateData"
+      parameters:
+        - name: recordId
+          in: path
+          required: true
+          description: health data object to be updated
+          schema:
+            type: string
+      requestBody:
+        description: specifies the health data object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HealthRecord'
+      responses:
+        "201":
+          description: "Created"
+        "400":
+          description: "Invalid"
   /api/v1/statistics:
     get:
       tags:
@@ -133,9 +173,6 @@ paths:
                 type: string
         "403":
           description: "Unauthorized"
-      security:
-        - OAuth2:
-          - get:stats  
   /api/v1/groupdata:
     get:
       tags:
@@ -143,41 +180,93 @@ paths:
       summary: "Get group phr"
       description: "Get group phr"
       operationId: "getGroupPhr"
+      parameters:
+        - name: patientId
+          in: query
+          description: requires patient id to check in which group he is; then, the group's PHR data can be retrieved
+          schema:
+            type: string
       responses:
         "200":
           description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                description: "Array of common group symptoms"
+                items:
+                  type: string
         "403":
           description: "Unauthorized"
-      security:
-        - OAuth2:
-          - get:groupphr
-  /api/v1/symptoms:
+  /api/v1/diseases:
     get:
       tags:
       - "disease api"
-      summary: "Get symptoms"
-      description: "Get symptoms"
-      operationId: "getSymptoms"
+      summary: "Get diseases"
+      description: "Get diseases"
+      operationId: "getDiseases"
+      parameters:
+        - name: id
+          in: query
+          description: Symptoms
+          schema:
+            type: array
+            items: 
+              type: string
       responses:
         "200":
-          description: "OK"
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
         "403":
           description: "Unauthorized"
-      security:
-        - OAuth2:
-          - get:symptoms
-          - get:symptoms
 components:
-  securitySchemes:
-    OAuth2:
-      type: oauth2
-      flows:
-        authorizationCode:
-          authorizationUrl: /auth/login
-          tokenUrl: /auth/credentials
-          scopes:
-            write:users: create new users
-            write:data: create new phr data
-            get:stats: get statistics
-            get:groupphr: get group phr
-            get:symptoms: get symptoms
+  schemas:
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        role:
+          type: string
+          enum: ["NURSE", "PATIENT", "RESEARCHER"]
+    HealthRecord:
+      type: object
+      properties:
+        userId:
+          type: string
+        groupId:
+          type: string
+          description: "The group ID identifies the (assumed) diagnosis"
+        age:
+          type: integer
+        zip:
+          type: integer
+        sex:
+          type: string
+          enum: [male, female, other]
+        symptoms:
+          type: array
+          items:
+            type: string
+    Group:
+      type: object
+      required:
+      - groupName
+      properties:
+        groupId:
+          type: string
+        groupName:
+          type: string
+        patients:
+          type: array
+          items:
+            type: string
