@@ -11,7 +11,7 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/oxisto/go-httputil v1.0.0
-	github.com/rs/zerolog v1.21.0
+	github.com/rs/zerolog v1.22.0
 	github.com/sethvargo/go-password v0.2.1-0.20210501151719-2d0677627a51
 	gorm.io/driver/postgres v1.1.0
 	gorm.io/driver/sqlite v1.1.4
