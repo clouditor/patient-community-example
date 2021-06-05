@@ -1,4 +1,4 @@
-# phr-manager
+# statistics
 
 ## Install
 
