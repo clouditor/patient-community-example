@@ -8,6 +8,7 @@
             "name": "Launch all services",
             "configurations": [
                 "Launch phr-manager",
+                "Launch statistics",
                 "Launch nurse-api",
                 "Launch auth-service (postgres)",
                 "Launch Chrome"
