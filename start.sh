@@ -3,7 +3,7 @@ if test "$#" -lt 1; then
     echo "./start.sh [service ...]"
 else
     if [ "$1" = "all" ]; then
-        SERVICES="postgres mongo nurse-api frontend phr-manager auth"
+        SERVICES="postgres mongo nurse-api frontend phr-manager statistics auth"
     else
         SERVICES=$*
     fi
@@ -34,6 +34,12 @@ else
 
     if [[ "${SERVICES[@]}" =~ "phr-manager" ]]; then
         pushd phr-manager
+            ./app.py &
+        popd
+    fi
+
+    if [[ "${SERVICES[@]}" =~ "statistics" ]]; then
+        pushd statistics
             ./app.py &
         popd
     fi
