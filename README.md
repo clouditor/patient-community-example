@@ -1,4 +1,4 @@
-# Patient Community Example
+# Patient Community Example 👩‍⚕️ 🧑‍⚕️ 👨‍⚕️
 
 [![Build](https://github.com/clouditor/patient-community-example/actions/workflows/build.yml/badge.svg)](https://github.com/clouditor/patient-community-example/actions/workflows/build.yml)
 
@@ -19,7 +19,7 @@ The cloud service is built in a polyglot micro-service pattern and consists of t
 | *group PHR controller* | TODO                                                                                                                   |     NodeJS |
 | *phr-manager*          | Manages personal health records (PHR) of individual patients                                                           |     Python |
 | *nurse-api*            | Manages users and roles. Called *patient manager* in the original LUNDDUN paper                                        |       Java |
-| *statistics*           | TODO                                                                                                                   |
+| *statistics*           | Enables researchers to retrieve k-anonymized statistics about personal health records                                  |     Python |
 
 An overview of the different APIs can be found in an [OpenAPI specification](https://github.com/clouditor/patient-community-example/blob/main/openapi/patient_community_openapi.yaml).
 
