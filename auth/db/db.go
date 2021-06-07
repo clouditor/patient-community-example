@@ -16,7 +16,7 @@ import (
 var db *gorm.DB
 
 func EnvOrDefault(env string, def string) string {
-	if s, isSet := os.LookupEnv("AUTH_POSTGRES_HOST"); isSet {
+	if s, isSet := os.LookupEnv(env); isSet {
 		return s
 	} else {
 		return def

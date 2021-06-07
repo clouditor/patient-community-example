@@ -1,0 +1,16 @@
+services:
+  frontend:
+    ports:
+    - "3000:3000"
+  auth:
+    ports:
+    - "8080:8080"
+  nurse-api:
+    ports:
+    - "8081:8081"
+  phr-manager:
+    ports:
+    - "8083:8083"
+  statistics:
+    ports:
+    - "8084:8084"
