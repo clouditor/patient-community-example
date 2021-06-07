@@ -9,6 +9,7 @@
             "configurations": [
                 "Launch phr-manager",
                 "Launch group-phr-controller",
+                "Launch statistics",
                 "Launch nurse-api",
                 "Launch auth-service (postgres)",
                 "Launch Chrome"
