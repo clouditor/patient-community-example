@@ -9,14 +9,17 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import create_access_token
 from flask import Flask, request
 from bson import json_util
-import sys
+import sys, os
 import logging
 import jwt
 import json
 import requests
-import datetime
 
-client = MongoClient("mongodb://localhost:27017/")
+mongo_host = os.getenv("MONGO_HOST")
+if mongo_host == None:
+    client = MongoClient("mongodb://localhost:27017/")
+else:    
+    client = MongoClient("mongodb://" + mongo_host + ":27017/")
 
 db = client.patient_data
 collection = db.records
@@ -24,7 +27,11 @@ collection = db.records
 app = Flask(__name__)
 jwt = JWTManager(app)
 
-jwks = requests.get("http://localhost:8080/auth/credentials").json()
+auth_host = os.getenv("AUTH_HOST")
+if auth_host == None:
+    jwks = requests.get("http://localhost:8080/auth/credentials").json()
+else:    
+    jwks = requests.get("http://" + auth_host + ":8080/auth/credentials").json()
 
 app.config["JWT_PUBLIC_KEY"] = ECAlgorithm.from_jwk(
     json.dumps(jwks["keys"][0])
@@ -71,4 +78,12 @@ def list_data():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8082, debug=True, threaded=True)
+    if len(sys.argv) < 2:
+        logging.info("start at port 8083")
+        app.run(host='0.0.0.0', port=8083, debug=True, threaded=True)
+
+    p = int(sys.argv[1])
+    logging.info("start at port %s" % (p))
+
+    app.run(host='0.0.0.0', port=p, debug=True, threaded=True)
+    
