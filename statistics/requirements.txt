@@ -1,4 +1,3 @@
-git+https://github.com/clouditor/Basic_Mondrian@master#egg=basic_mondrian_health
 certifi==2020.12.5
 cffi==1.14.5
 chardet==4.0.0

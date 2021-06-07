@@ -11,4 +11,4 @@ ENV MONGO_HOST=mongo
 
 EXPOSE 8083
 
-CMD ["python", "productpage.py", "8083"]
+CMD ["python", "app.py", "8083"]
