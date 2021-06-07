@@ -1,9 +1,15 @@
-FROM openjdk:15-jdk
-
-EXPOSE 8081:8081
+FROM openjdk:15-jdk as builder
 
 RUN mkdir /nurse-api
 COPY ./ /nurse-api
 WORKDIR /nurse-api
+RUN ./gradlew build 
 
-CMD ["./gradlew", "bootRun"]
+FROM openjdk:15-jdk
+COPY --from=builder /nurse-api/build/libs/nurse-api-boot.jar /
+WORKDIR /
+
+EXPOSE 8081:8081
+
+#CMD ["java -jar nurse-api.jar"]
+ENTRYPOINT ["java","-jar","/nurse-api-boot.jar"]
