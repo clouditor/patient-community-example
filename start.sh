@@ -30,10 +30,15 @@ else
             yarn install
             yarn start &
         popd
-    fi
-
+    
     if [[ "${SERVICES[@]}" =~ "phr-manager" ]]; then
         pushd phr-manager
+            ./app.py &
+        popd
+    fi
+    
+    if [[ "${SERVICES[@]}" =~ "group-phr-controller" ]]; then
+        pushd group-phr-controller
             ./app.py &
         popd
     fi

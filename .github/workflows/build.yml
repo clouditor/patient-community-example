@@ -56,3 +56,17 @@ jobs:
           python3 -m pip install -r requirements.txt
           python3 -m py_compile app.py
         working-directory: phr-manager
+
+  build-goup-phr-controller:
+    name: Build Group PHR Controller
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Build
+        run: |
+          python3 -m pip install -r requirements.txt
+          python3 -m py_compile app.py
+        working-directory: group-phr-controller
