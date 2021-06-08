@@ -36,6 +36,9 @@ app.config["JWT_PUBLIC_KEY"] = ECAlgorithm.from_jwk(
 
 app.config["JWT_ALGORITHM"] = "ES256"
 
+# Get group_phr_data for requested group_id
+# TODO pseudonymized and randomized user_id -> hash of user_id + string?
+# TODO psuedonymization configurable?
 
 @app.route("/api/v1/groupdata", methods=['GET'])
 @jwt_required()
