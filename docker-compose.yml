@@ -1,16 +1,38 @@
 services:
   frontend:
+    build: ./frontend
+    container_name: frontend
     ports:
-    - "3000:3000"
-  auth:
+    - "3000:80"
+  auth-service:
+    environment:
+        AUTH_DEFAULT_PASSWORD: "myverysecretpassword"
+    build: ./auth
+    container_name: auth-service
     ports:
     - "8080:8080"
   nurse-api:
+    build: ./nurse-api
+    container_name: nurse-api
     ports:
     - "8081:8081"
   phr-manager:
+    build: ./phr-manager
+    container_name: phr-manager
     ports:
     - "8083:8083"
   statistics:
+    build: ./statistics
+    container_name: statistics
     ports:
     - "8084:8084"
+  postgres:
+    environment:
+        POSTGRES_PASSWORD: "postgres"
+    ports:
+    - 5432:5432
+    image: postgres
+  mongo:
+    ports:
+    - 27017:27017
+    image: mongo

@@ -11,5 +11,4 @@ WORKDIR /
 
 EXPOSE 8081:8081
 
-#CMD ["java -jar nurse-api.jar"]
 ENTRYPOINT ["java","-jar","/nurse-api-boot.jar"]
