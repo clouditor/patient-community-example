@@ -15,11 +15,9 @@ import jwt
 import json
 import requests
 
-mongo_host = os.getenv("MONGO_HOST")
-if mongo_host == None:
-    client = MongoClient("mongodb://localhost:27017/")
-else:    
-    client = MongoClient("mongodb://" + mongo_host + ":27017/")
+
+mongo_host = "localhost" if (os.environ.get("MONGO_HOST") is None) else os.environ.get("MONGO_HOST")
+client = MongoClient("mongodb://" + mongo_host + ":27017/")
 
 db = client.patient_data
 collection = db.records

@@ -68,8 +68,8 @@ def list_statistics():
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        logging.info("start at port 8083")
-        app.run(host='0.0.0.0', port=8083, debug=True, threaded=True)
+        logging.info("start at port 8084")
+        app.run(host='0.0.0.0', port=8084, debug=True, threaded=True)
 
     p = int(sys.argv[1])
     logging.info("start at port %s" % (p))

@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://postgres:5432/postgres
     username: postgres
     password: postgres
   jpa:
@@ -16,5 +16,5 @@ spring:
       resourceserver:
         jwt:
           jws-algorithm: ES256
-          issuer-uri: http://localhost:8080/auth
-          jwk-set-uri: http://localhost:8080/auth/credentials
+          issuer-uri: http://auth-service:8080/auth
+          jwk-set-uri: http://auth-service:8080/auth/credentials

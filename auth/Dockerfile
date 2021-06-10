@@ -1,14 +1,12 @@
-FROM golang:1.16
+FROM golang:1.16 as builder
 
 WORKDIR /go/src/app
 COPY . .
 
 RUN go get -d -v ./...
 RUN go install -v ./...
-RUN go build cmd/auth-service/auth-service.go
+RUN CGO_ENABLED=0 go build cmd/auth-service/auth-service.go
 
-ENV AUTH_USE_REAL_DB 1
-ENV AUTH_DEFAULT_PASSWORD myverysecretpassword
-ENV AUTH_POSTGRES_HOST=postgres
-
-CMD ["auth-service"]
+FROM alpine:latest
+COPY --from=builder /go/src/app/auth-service .
+CMD [ "./auth-service" ]

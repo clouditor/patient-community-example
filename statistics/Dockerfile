@@ -13,13 +13,11 @@ WORKDIR /Basic_Mondrian
 RUN pip3 install .
 WORKDIR /
 COPY requirements.txt .
+RUN sed -i '1d' requirements.txt
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY app.py /
 WORKDIR /
-
-ENV AUTH_HOST=auth-service
-ENV MONGO_HOST=mongo
 
 EXPOSE 8084
 
