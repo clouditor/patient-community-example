@@ -40,14 +40,14 @@ app.config["JWT_ALGORITHM"] = "ES256"
 # TODO pseudonymized and randomized user_id -> hash of user_id + string?
 # TODO psuedonymization configurable?
 
-@app.route("/api/v1/groupdata", methods=['GET'])
+@app.route("/api/v1/groupdata/<int:group_id>", methods=['GET'])
 @jwt_required()
-def list_groupdata():
+def list_groupdata(group_id=0):
     user_id = get_jwt_identity()
     claims = get_jwt()
     records = []
 
-    if claims["scope"] != "patient":
+    if claims["scope"] != "nurse":
         return json.dumps({"error": "Invalid scope"}), 403
 
     # Get group_ids from user_DB (PostgreSQL)
@@ -61,14 +61,17 @@ def list_groupdata():
         for row in rows:
             group_ids_list.append(row[0])
 
+        if group_id not in group_ids_list:
+            return json.dumps({"error": "user has no permission for the requested group_id"}), 403
+
     except Exception as e:
         print("err: ", e)
         return json.dumps({"error": "user_db request"}), 500
 
     # Now we can retrieve the group_data
     # Get group_data for all group_ids
-    for group_id in group_ids_list:
-        records.append(phr_db_collection.find({"group_id": group_id}))
+    #for group_id in group_ids_list:
+    records.append(phr_db_collection.find({"group_id": group_id}))
 
     return json_util.dumps(records), 200
 
