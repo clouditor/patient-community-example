@@ -16,7 +16,7 @@ The cloud service is built in a polyglot micro-service pattern and consists of t
 | *frontend*             | The UI frontend consisting of the three sub-components *patient frontend*, *researcher frontend* and *nurse frontend*. | TypeScript |
 | *auth*                 | Authentication backend, issues tokens for the users groups. Called *session manager* in the original LINDDUN paper     |         Go |
 | *disease service*      | TODO                                                                                                                   |            |
-| *group PHR controller* | Consults personal health records (PHR) of all user groups in which the requesting patient is located                   |     Python |
+| *group PHR controller* | Consults personal health records (PHR) of all user groups in which the requesting patient is present                   |     Python |
 | *phr-manager*          | Manages personal health records (PHR) of individual patients                                                           |     Python |
 | *nurse-api*            | Manages users and roles. Called *patient manager* in the original LUNDDUN paper                                        |       Java |
 | *statistics*           | Enables researchers to retrieve k-anonymized statistics about personal health records                                  |     Python |
