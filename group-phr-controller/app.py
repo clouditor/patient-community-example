@@ -61,6 +61,7 @@ def list_groupdata(group_id=0):
         for row in rows:
             group_ids_list.append(row[0])
 
+        # Checks if requesting user has the requesting group_id
         if group_id not in group_ids_list:
             return json.dumps({"error": "user has no permission for the requested group_id"}), 403
 
@@ -69,8 +70,7 @@ def list_groupdata(group_id=0):
         return json.dumps({"error": "user_db request"}), 500
 
     # Now we can retrieve the group_data
-    # Get group_data for all group_ids
-    #for group_id in group_ids_list:
+    # Get group_data for requested group_id
     records.append(phr_db_collection.find({"group_id": group_id}))
 
     return json_util.dumps(records), 200
