@@ -12,6 +12,7 @@ import json
 import requests
 import psycopg2
 from configparser import ConfigParser
+import hashlib
 
 # user_db connection (PostgreSQL)
 user_db_con = psycopg2.connect(database="postgres", user="postgres", password="postgres", host="localhost")
@@ -36,7 +37,6 @@ app.config["JWT_PUBLIC_KEY"] = ECAlgorithm.from_jwk(
 
 app.config["JWT_ALGORITHM"] = "ES256"
 
-# TODO Get group_phr_data for requested group_id
 # TODO pseudonymized and randomized user_id -> hash of user_id + string?
 # TODO psuedonymization configurable?
 
@@ -45,13 +45,13 @@ app.config["JWT_ALGORITHM"] = "ES256"
 def list_groupdata(group_id=0):
     user_id = get_jwt_identity()
     claims = get_jwt()
-    records = []
+    # records = []
 
-    if claims["scope"] != "nurse":
+    if claims["scope"] != "patient":
         return json.dumps({"error": "Invalid scope"}), 403
 
     # Get group_ids from user_DB (PostgreSQL)
-    # First, we need the group_ids of the user
+    # First, we need all assigned group_ids of the requesting user
     try:
         group_ids_list = []
         
@@ -61,7 +61,7 @@ def list_groupdata(group_id=0):
         for row in rows:
             group_ids_list.append(row[0])
 
-        # Checks if requesting user has the requesting group_id
+        # Checks if requesting user has the requested group_id
         if group_id not in group_ids_list:
             return json.dumps({"error": "user has no permission for the requested group_id"}), 403
 
@@ -69,11 +69,21 @@ def list_groupdata(group_id=0):
         print("err: ", e)
         return json.dumps({"error": "user_db request"}), 500
 
+    
     # Now we can retrieve the group_data
     # Get group_data for requested group_id
-    records.append(phr_db_collection.find({"group_id": group_id}))
+    records = phr_db_collection.find({"group_id": group_id})
+    
+    records_json = json_util.dumps(records)
+    json_data = json.loads(records_json)
 
-    return json_util.dumps(records), 200
+    for item in json_data:
+        item["user_id"] = item["user_id"].replace(user_id, hash_user_id(user_id))
+
+    return json_util.dumps(json_data), 200
+
+def hash_user_id(user_id):
+    return hashlib.md5(user_id.encode()).hexdigest()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8085, debug=True, threaded=True)
