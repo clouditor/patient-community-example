@@ -1,7 +1,6 @@
 FROM openjdk:15-jdk as builder
 
 COPY . .
-COPY ./Docker/application.yml src/main/resources
 RUN ./gradlew build 
 
 FROM openjdk:15-jdk

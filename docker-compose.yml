@@ -11,22 +11,29 @@ services:
         AUTH_USE_REAL_DB: 1
     build: ./auth
     container_name: auth-service
+    depends_on:
+      - postgres
     ports:
     - 8080:8080
   nurse-api:
     environment:
         AUTH_POSTGRES_HOST: postgres
-    build: ./nurse-api
+    build: 
+      context: ./nurse-api
     container_name: nurse-api
-    # command: sh -c 'cp ./nurse-api/application.yml /src/main/resources/'
     ports:
     - 8081:8081
+    volumes:
+        - ${PWD}/deployments/docker-compose:/config/
   phr-manager:
     environment:
         AUTH_HOST: auth-service
         MONGO_HOST: mongo
     build: ./phr-manager
     container_name: phr-manager
+    depends_on:
+      - mongo
+      - auth-service
     ports:
     - 8083:8083
   statistics:
