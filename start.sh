@@ -3,7 +3,7 @@ if test "$#" -lt 1; then
     echo "./start.sh [service ...]"
 else
     if [ "$1" = "all" ]; then
-        SERVICES="postgres mongo nurse-api frontend phr-manager statistics auth"
+        SERVICES="postgres mongo nurse-api frontend phr-manager group-phr-controller statistics auth"
     else
         SERVICES=$*
     fi
