@@ -20,6 +20,5 @@
 		}
 	],
 	"settings": {
-		"go.goroot": "/snap/go/current"
 	}
 }

@@ -53,7 +53,7 @@ def post_data():
         phr = {"user_id": user_id} | content #only python 3.9+
     else:
         z = {"user_id": user_id}
-    phr = {**z, **content}
+        phr = {**z, **content}
 
     phr_id = collection.insert_one(phr).inserted_id
 
