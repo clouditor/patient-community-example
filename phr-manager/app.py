@@ -41,13 +41,19 @@ def post_data():
 
     content = request.json
 
+    print("content: ", content)
+
     if content is None:
         return json.dumps({"error": "Empty content"}), 400
 
     if claims["scope"] != "patient":
         return json.dumps({"error": "Invalid scope"}), 403
 
-    phr = {"user_id": user_id} | content
+    if sys.version_info.minor > 9:
+        phr = {"user_id": user_id} | content #only python 3.9+
+    else:
+        z = {"user_id": user_id}
+        phr = {**z, **content}
 
     phr_id = collection.insert_one(phr).inserted_id
 

@@ -14,7 +14,11 @@
 		},
 		{
 			"path": "phr-manager"
+		},
+		{
+			"path": "group-phr-controller"
 		}
 	],
-	"settings": {}
+	"settings": {
+	}
 }
