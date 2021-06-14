@@ -12,8 +12,14 @@ import jwt
 import json
 import requests
 from basic_mondrian_health import health_data_api
+import logging
+import os, sys
 
-client = MongoClient("mongodb://localhost:27017/")
+mongo_host = os.getenv("MONGO_HOST")
+if mongo_host == None:
+    client = MongoClient("mongodb://localhost:27017/")
+else:    
+    client = MongoClient("mongodb://" + mongo_host + ":27017/")
 
 db = client.patient_data
 collection = db.records
@@ -21,7 +27,11 @@ collection = db.records
 app = Flask(__name__)
 jwt = JWTManager(app)
 
-jwks = requests.get("http://localhost:8080/auth/credentials").json()
+auth_host = os.getenv("AUTH_HOST")
+if auth_host == None:
+    jwks = requests.get("http://localhost:8080/auth/credentials").json()
+else:    
+    jwks = requests.get("http://" + auth_host + ":8080/auth/credentials").json()
 
 app.config["JWT_PUBLIC_KEY"] = ECAlgorithm.from_jwk(
     json.dumps(jwks["keys"][0])
@@ -57,5 +67,11 @@ def list_statistics():
     return str(anonymized_data), 200
 
 if __name__ == '__main__':
-    # print(list_statistics())
-    app.run(host='0.0.0.0', port=8084, debug=True, threaded=True)
+    if len(sys.argv) < 2:
+        logging.info("start at port 8084")
+        app.run(host='0.0.0.0', port=8084, debug=True, threaded=True)
+
+    p = int(sys.argv[1])
+    logging.info("start at port %s" % (p))
+
+    app.run(host='0.0.0.0', port=p, debug=True, threaded=True)
