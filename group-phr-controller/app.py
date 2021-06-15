@@ -28,7 +28,7 @@ def envOrDefault(env, def):
     else:
         return def
 
-user_db_con = psycopg2.connect(dbname="postgres", user="postgres", password="postgres", host="localhost")
+user_db_con = psycopg2.connect(database=dbname, user=user, password=password, host=host)
 
 # create a cursor
 user_db = user_db_con.cursor()    
