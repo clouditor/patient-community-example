@@ -27,8 +27,8 @@ services:
     - ${PWD}/deployments/docker-compose:/config/
   phr-manager:
     environment:
-        AUTH_HOST: auth-service
-        MONGO_HOST: mongo
+      AUTH_HOST: auth-service
+      MONGO_HOST: mongo
     build: ./phr-manager
     container_name: phr-manager
     depends_on:
@@ -56,6 +56,7 @@ services:
     image: mongo
   group-phr-controller:
     environment:
+      AUTH_HOST: auth-service
       AUTH_POSTGRES_HOST: postgres
       AUTH_USE_REAL_DB: 1
     build: 

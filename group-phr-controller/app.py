@@ -11,12 +11,11 @@ from bson import json_util
 import json
 import requests
 import os
-import psycopg2-binary
+import psycopg2
 from configparser import ConfigParser
 import hashlib
 
 # user_db connection (PostgreSQL)
-
 postgres_host = os.environ.get("AUTH_POSTGRES_HOST", "localhost")
 user = os.environ.get("AUTH_POSTGRES_USER", "postgres")
 password = os.environ.get("AUTH_POSTGRES_PASSWORD", "postgres")
@@ -38,11 +37,8 @@ phr_db_collection = phr_db.records
 app = Flask(__name__)
 jwt = JWTManager(app)
 
-auth_host = os.getenv("AUTH_HOST")
-if auth_host == None:
-    jwks = requests.get("http://localhost:8080/auth/credentials").json()
-else:    
-    jwks = requests.get("http://" + auth_host + ":8080/auth/credentials").json()
+auth_host = os.environ.get("AUTH_HOST", "localhost")
+jwks = requests.get("http://" + auth-host + ":8080/auth/credentials").json()
 
 app.config["JWT_PUBLIC_KEY"] = ECAlgorithm.from_jwk(
     json.dumps(jwks["keys"][0])
