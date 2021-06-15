@@ -11,24 +11,18 @@ from bson import json_util
 import json
 import requests
 import os
-import psycopg2
+import psycopg2-binary
 from configparser import ConfigParser
 import hashlib
 
 # user_db connection (PostgreSQL)
 
-host = envOrDefault("AUTH_POSTGRES_HOST", "localhost")
-user = envOrDefault("AUTH_POSTGRES_USER", "postgres")
-password = envOrDefault("AUTH_POSTGRES_PASSWORD", "postgres")
-dbname = envOrDefault("AUTH_POSTGRES_DB", "postgres")
+postgres_host = os.environ.get("AUTH_POSTGRES_HOST", "localhost")
+user = os.environ.get("AUTH_POSTGRES_USER", "postgres")
+password = os.environ.get("AUTH_POSTGRES_PASSWORD", "postgres")
+dbname = os.environ.get("AUTH_POSTGRES_DB", "postgres")
 
-def envOrDefault(env, def):
-    if os.LookupEnv(env): 
-        return os.LookupEnv(env)
-    else:
-        return def
-
-user_db_con = psycopg2.connect(database=dbname, user=user, password=password, host=host)
+user_db_con = psycopg2.connect(database=dbname, user=user, password=password, host=postgres_host)
 
 # create a cursor
 user_db = user_db_con.cursor()    
