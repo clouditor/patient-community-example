@@ -56,9 +56,9 @@ services:
     image: mongo
   group-phr-controller:
     environment:
-      AUTH_DEFAULT_PASSWORD: myverysecretpassword
+      AUTH_HOST: auth-service
       AUTH_POSTGRES_HOST: postgres
-      AUTH_USE_REAL_DB: 1
+      MONGO_HOST: mongo
     build: 
       context: ./group-phr-controller
     container_name: group-phr-controller
