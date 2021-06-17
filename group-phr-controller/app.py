@@ -11,12 +11,11 @@ from bson import json_util
 import json
 import requests
 import os
-import psycopg2-binary
+import psycopg2
 from configparser import ConfigParser
 import hashlib
 
 # user_db connection (PostgreSQL)
-
 postgres_host = os.environ.get("AUTH_POSTGRES_HOST", "localhost")
 user = os.environ.get("AUTH_POSTGRES_USER", "postgres")
 password = os.environ.get("AUTH_POSTGRES_PASSWORD", "postgres")
@@ -50,7 +49,6 @@ app.config["JWT_PUBLIC_KEY"] = ECAlgorithm.from_jwk(
 
 app.config["JWT_ALGORITHM"] = "ES256"
 
-# TODO pseudonymized and randomized user_id -> hash of user_id + string?
 # TODO psuedonymization configurable?
 
 @app.route("/api/v1/groupdata/<int:group_id>", methods=['GET'])
