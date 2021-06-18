@@ -10,17 +10,25 @@ from flask import Flask, request
 from bson import json_util
 import json
 import requests
+import os
 import psycopg2
 from configparser import ConfigParser
 import hashlib
 
 # user_db connection (PostgreSQL)
-user_db_con = psycopg2.connect(database="postgres", user="postgres", password="postgres", host="localhost")
+postgres_host = os.environ.get("AUTH_POSTGRES_HOST", "localhost")
+user = os.environ.get("AUTH_POSTGRES_USER", "postgres")
+password = os.environ.get("AUTH_POSTGRES_PASSWORD", "postgres")
+dbname = os.environ.get("AUTH_POSTGRES_DB", "postgres")
+
+user_db_con = psycopg2.connect(database=dbname, user=user, password=password, host=postgres_host)
+
 # create a cursor
 user_db = user_db_con.cursor()    
 
 # phr_db client (MongoDB)
-phr_db_client = MongoClient("mongodb://localhost:27017/")
+mongo_host = "localhost" if (os.environ.get("MONGO_HOST") is None) else os.environ.get("MONGO_HOST")
+phr_db_client = MongoClient("mongodb://" + mongo_host + ":27017/")
 
 # databse patient_data, collection records
 phr_db = phr_db_client.patient_data
@@ -29,7 +37,8 @@ phr_db_collection = phr_db.records
 app = Flask(__name__)
 jwt = JWTManager(app)
 
-jwks = requests.get("http://localhost:8080/auth/credentials").json()
+auth_host = "localhost" if (os.getenv("AUTH_HOST") is None) else os.getenv("AUTH_HOST")
+jwks = requests.get("http://" + auth_host + ":8080/auth/credentials").json()
 
 app.config["JWT_PUBLIC_KEY"] = ECAlgorithm.from_jwk(
     json.dumps(jwks["keys"][0])
@@ -37,7 +46,6 @@ app.config["JWT_PUBLIC_KEY"] = ECAlgorithm.from_jwk(
 
 app.config["JWT_ALGORITHM"] = "ES256"
 
-# TODO pseudonymized and randomized user_id -> hash of user_id + string?
 # TODO psuedonymization configurable?
 
 @app.route("/api/v1/groupdata/<int:group_id>", methods=['GET'])
