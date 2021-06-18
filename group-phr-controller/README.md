@@ -1,4 +1,4 @@
-# phr-manager
+# grou-phr-controller
 
 ## Install
 
