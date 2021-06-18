@@ -20,6 +20,9 @@ spec:
         - image: ghcr.io/clouditor/examples-nurse-api-v1
           imagePullPolicy: Always
           name: nurse-api
+          env:
+            - name: AUTH_POSTGRES_HOST
+              value: postgres
           ports:
             - containerPort: 8081
           securityContext:

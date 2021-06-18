@@ -20,6 +20,13 @@ spec:
         - image: ghcr.io/clouditor/examples-auth-service-v1
           imagePullPolicy: Always
           name: auth-service
+          env:
+            - name: AUTH_DEFAULT_PASSWORD
+              value: myverysecretpassword
+            - name: AUTH_POSTGRES_HOST
+              value: postgres
+            - name: AUTH_USE_REAL_DB
+              value: 1
           ports:
             - containerPort: 8080
           securityContext:

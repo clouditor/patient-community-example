@@ -20,6 +20,11 @@ spec:
         - image: ghcr.io/clouditor/examples-statistics-v1
           imagePullPolicy: Always
           name: statistics
+          env:
+            - name: AUTH_HOST
+              value: auth-service
+            - name: MONGO_HOST
+              value: mongo
           ports:
             - containerPort: 8084
           securityContext:

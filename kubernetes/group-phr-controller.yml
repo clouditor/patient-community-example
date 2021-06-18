@@ -20,6 +20,13 @@ spec:
         - image: ghcr.io/clouditor/examples-group-phr-controller-v1
           imagePullPolicy: Always
           name: group-phr-controller
+          env:
+            - name: AUTH_HOST
+              value: auth-service
+            - name: AUTH_POSTGRES_HOST
+              value: postgres
+            - name: MONGO_HOST
+              value: mongo
           ports:
             - containerPort: 8085
           securityContext:

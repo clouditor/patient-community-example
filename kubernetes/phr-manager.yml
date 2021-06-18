@@ -20,6 +20,11 @@ spec:
         - image: ghcr.io/clouditor/examples-phr-manager-v1
           imagePullPolicy: Always
           name: phr-manager
+          env:
+            - name: AUTH_HOST
+              value: auth-service
+            - name: MONGO_HOST
+              value: mongo
           ports:
             - containerPort: 8083
           securityContext:
