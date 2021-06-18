@@ -224,24 +224,7 @@ jobs:
             ghcr.io/clouditor/examples-phr-manager-v1:latest
           imagepullsecrets: |
             ghcr-secret
-
-<<<<<<< HEAD
-=======
-  # build-group-phr-controller:
-  #   name: Build Group PHR Controller
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-python@v2
-  #       with:
-  #         python-version: '3.x'
-  #     - name: Build
-  #       run: |
-  #         python3 -m pip install -r requirements.txt
-  #         python3 -m py_compile app.py
-  #       working-directory: group-phr-controller
   
->>>>>>> 5b84f35d25f6d65002b164bdb59a3b581cbe024a
   build-statistics:
     name: Build Statistics
     runs-on: ubuntu-latest
