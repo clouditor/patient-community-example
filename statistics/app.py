@@ -27,11 +27,8 @@ collection = db.records
 app = Flask(__name__)
 jwt = JWTManager(app)
 
-auth_host = os.getenv("AUTH_HOST")
-if auth_host == None:
-    jwks = requests.get("http://localhost:8080/auth/credentials").json()
-else:    
-    jwks = requests.get("http://" + auth_host + ":8080/auth/credentials").json()
+auth_host = "localhost" if (os.getenv("AUTH_HOST") is None) else os.getenv("AUTH_HOST")
+jwks = requests.get("http://" + auth_host + ":8080/auth/credentials").json()
 
 app.config["JWT_PUBLIC_KEY"] = ECAlgorithm.from_jwk(
     json.dumps(jwks["keys"][0])
