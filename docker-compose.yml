@@ -50,10 +50,17 @@ services:
     ports:
     - 5432:5432
     image: postgres
+    volumes:
+      - ${PWD}/deployments/docker-compose/postgres_data:/data
+      - ${PWD}/deployments/docker-compose/postgres:/docker-entrypoint-initdb.d/
   mongo:
+    environment: 
+      MONGO_INITDB_DATABASE: patient_data
     ports:
     - 27017:27017
     image: mongo
+    volumes:
+      - ${PWD}/deployments/docker-compose/mongo:/docker-entrypoint-initdb.d/
   group-phr-controller:
     environment:
       AUTH_HOST: auth-service
