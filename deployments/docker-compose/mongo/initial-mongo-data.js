@@ -1,7 +1,7 @@
 db.records.insertMany([
   {
-    user_id: "1234",
-    group: "anxiety1",
+    user_id: "1",
+    group: "Corona",
     timestamp: "2021-06-03T13:18:56+00:00", 
     medication: "cardiovascular",
     medication_dosage: 5, 
@@ -9,12 +9,39 @@ db.records.insertMany([
     symptom_strength: 4,
   },
   {
-    user_id: "1235",
-    group: "anxiety1",
+    user_id: "1",
+    group: "Corona",
     timestamp: "2021-06-02T13:18:56+00:00", 
     medication: "nervous",
     medication_dosage: 7, 
     symptom: "dizzy",
     symptom_strength: 2,
+  },
+  {
+    user_id: "1",
+    group: "Corona",
+    timestamp: "2021-06-02T13:18:56+00:01", 
+    medication: "respiratory",
+    medication_dosage: 7, 
+    symptom: "tired",
+    symptom_strength: 5,
+  },
+  {
+    user_id: "1",
+    group: "Corona",
+    timestamp: "2021-06-02T13:18:56+00:02", 
+    medication: "gastrointestinal",
+    medication_dosage: 550, 
+    symptom: "nausea",
+    symptom_strength: 9,
+  },
+  {
+    user_id: "1",
+    group: "Corona",
+    timestamp: "2021-06-02T13:18:56+00:03", 
+    medication: "immunomodulating",
+    medication_dosage: 97, 
+    symptom: "weak",
+    symptom_strength: 3,
   }
 ]);

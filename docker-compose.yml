@@ -4,6 +4,8 @@ services:
     container_name: frontend
     ports:
     - 3000:80
+    depends_on:
+      - auth-service
   auth-service:
     environment:
       AUTH_DEFAULT_PASSWORD: myverysecretpassword
@@ -44,6 +46,9 @@ services:
     container_name: statistics
     ports:
     - 8084:8084
+    depends_on:
+      - mongo
+      - auth-service
   postgres:
     environment:
       POSTGRES_PASSWORD: postgres
@@ -72,5 +77,6 @@ services:
     depends_on:
     - postgres
     - mongo
+    - auth-service
     ports:
     - 8085:8085
