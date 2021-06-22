@@ -270,7 +270,7 @@ jobs:
           imagepullsecrets: |
             ghcr-secret
 
-  build-goup-phr-controller:
+  build-group-phr-controller:
     name: Build Group PHR Controller
     runs-on: ubuntu-latest
     steps:
@@ -286,8 +286,8 @@ jobs:
       - name: Build and Push
         run: |
           pushd group-phr-controller
-            docker build --pull -t "${PREFIX}/examples-goup-phr-controller-v1:${VERSION}" -t "${PREFIX}/examples-goup-phr-controller-v1:latest" --build-arg service_version=v1 .
-            docker push "${PREFIX}/examples-goup-phr-controller-v1:latest"
+            docker build --pull -t "${PREFIX}/examples-group-phr-controller-v1:${VERSION}" -t "${PREFIX}/examples-group-phr-controller-v1:latest" --build-arg service_version=v1 .
+            docker push "${PREFIX}/examples-group-phr-controller-v1:latest"
           popd
         if: github.ref == 'refs/heads/main'
         env:
@@ -316,8 +316,8 @@ jobs:
         with:
           namespace: cpg-examples-patient-community
           manifests: |
-            kubernetes/goup-phr-controller.yml
+            kubernetes/group-phr-controller.yml
           images: |
-            ghcr.io/clouditor/examples-goup-phr-controller-v1:latest
+            ghcr.io/clouditor/examples-group-phr-controller-v1:latest
           imagepullsecrets: |
             ghcr-secret
