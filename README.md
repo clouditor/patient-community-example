@@ -38,7 +38,7 @@ All services can be started with a simple start script `source ./start.sh all`. 
 
 Alternativly, if Visual Studio Code is used, a *compound launch configuration* called **Launch all services** can be used, which automatically starts all the relevant services and allows them to be debugged.
 
-In the future `docker-compose` support will be added.
+`docker-compose` is also supported; here, two users and groups are created by default, as well as some sample PHR data. You can login with `NurseRatched` and the password `myverysecretpassword`.
 
 ## References
 
