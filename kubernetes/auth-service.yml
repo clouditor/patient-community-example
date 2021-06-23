@@ -26,7 +26,7 @@ spec:
             - name: AUTH_POSTGRES_HOST
               value: postgres
             - name: AUTH_USE_REAL_DB
-              value: 1
+              value: '1'
           ports:
             - containerPort: 8080
           securityContext:
