@@ -44,13 +44,6 @@ jobs:
           kubectl get nodes
           kubectl get pods
         if: github.ref == 'refs/heads/main'
-      - uses: Azure/k8s-create-secret@v1
-        with:
-          namespace: cpg-examples-patient-community
-          container-registry-url: ghcr.io
-          container-registry-username: $GITHUB_ACTOR
-          container-registry-password: ${{ secrets.GITHUB_TOKEN }}
-          secret-name: ghcr-secret
       - uses: Azure/k8s-deploy@v1
         with:
           namespace: cpg-examples-patient-community
@@ -105,13 +98,6 @@ jobs:
           kubectl get nodes
           kubectl get pods
         if: github.ref == 'refs/heads/main'
-      - uses: Azure/k8s-create-secret@v1
-        with:
-          namespace: cpg-examples-patient-community
-          container-registry-url: ghcr.io
-          container-registry-username: $GITHUB_ACTOR
-          container-registry-password: ${{ secrets.GITHUB_TOKEN }}
-          secret-name: ghcr-secret
       - uses: Azure/k8s-deploy@v1
         with:
           namespace: cpg-examples-patient-community
@@ -170,13 +156,6 @@ jobs:
           kubectl get nodes
           kubectl get pods
         if: github.ref == 'refs/heads/main'
-      - uses: Azure/k8s-create-secret@v1
-        with:
-          namespace: cpg-examples-patient-community
-          container-registry-url: ghcr.io
-          container-registry-username: $GITHUB_ACTOR
-          container-registry-password: ${{ secrets.GITHUB_TOKEN }}
-          secret-name: ghcr-secret
       - uses: Azure/k8s-deploy@v1
         with:
           namespace: cpg-examples-patient-community
@@ -229,13 +208,6 @@ jobs:
           kubectl get nodes
           kubectl get pods
         if: github.ref == 'refs/heads/main'
-      - uses: Azure/k8s-create-secret@v1
-        with:
-          namespace: cpg-examples-patient-community
-          container-registry-url: ghcr.io
-          container-registry-username: $GITHUB_ACTOR
-          container-registry-password: ${{ secrets.GITHUB_TOKEN }}
-          secret-name: ghcr-secret
       - uses: Azure/k8s-deploy@v1
         with:
           namespace: cpg-examples-patient-community
@@ -288,13 +260,6 @@ jobs:
           kubectl get nodes
           kubectl get pods
         if: github.ref == 'refs/heads/main'
-      - uses: Azure/k8s-create-secret@v1
-        with:
-          namespace: cpg-examples-patient-community
-          container-registry-url: ghcr.io
-          container-registry-username: $GITHUB_ACTOR
-          container-registry-password: ${{ secrets.GITHUB_TOKEN }}
-          secret-name: ghcr-secret
       - uses: Azure/k8s-deploy@v1
         with:
           namespace: cpg-examples-patient-community
@@ -347,13 +312,6 @@ jobs:
           kubectl get nodes
           kubectl get pods
         if: github.ref == 'refs/heads/main'
-      - uses: Azure/k8s-create-secret@v1
-        with:
-          namespace: cpg-examples-patient-community
-          container-registry-url: ghcr.io
-          container-registry-username: $GITHUB_ACTOR
-          container-registry-password: ${{ secrets.GITHUB_TOKEN }}
-          secret-name: ghcr-secret
       - uses: Azure/k8s-deploy@v1
         with:
           namespace: cpg-examples-patient-community
