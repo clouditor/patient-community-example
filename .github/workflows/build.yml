@@ -18,7 +18,7 @@ jobs:
       - name: Login Docker Registry
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-        if: github.ref == 'refs/heads/main'
+        # if: github.ref == 'refs/heads/main'
       - name: Build and Push
         run: |
           pushd frontend
@@ -48,13 +48,13 @@ jobs:
           kubectl get nodes
           kubectl get pods
         if: github.ref == 'refs/heads/main'
-      - uses: Azure/k8s-create-secret@v1
-        with:
-          namespace: cpg-examples-patient-community
-          container-registry-url: ghcr.io
-          container-registry-username: $GITHUB_ACTOR
-          container-registry-password: ${{ secrets.GITHUB_TOKEN }}
-          secret-name: ghcr-secret
+      # - uses: Azure/k8s-create-secret@v1
+      #   with:
+      #     namespace: cpg-examples-patient-community
+      #     container-registry-url: ghcr.io
+      #     container-registry-username: $GITHUB_ACTOR
+      #     container-registry-password: ${{ secrets.GITHUB_TOKEN }}
+      #     secret-name: ghcr-secret
       - uses: Azure/k8s-deploy@v1
         with:
           namespace: cpg-examples-patient-community
