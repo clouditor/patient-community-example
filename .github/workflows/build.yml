@@ -394,7 +394,7 @@ jobs:
           images: |
             postgres
   build-mongo:
-      name: Build Postgres DB
+    name: Build Mongo DB
     runs-on: ubuntu-latest
     steps:
       - name: Login via Az module
