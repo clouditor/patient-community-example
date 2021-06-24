@@ -1,0 +1,59 @@
+#### postgres #####
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: postgres
+  name: postgres
+  namespace: cpg-examples-patient-community
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - image: postgres
+          imagePullPolicy: Always
+          name: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              value: postgres
+          ports:
+            - containerPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: cpg-examples-patient-community
+spec:
+  ports:
+    - port: 5432
+      protocol: TCP
+      targetPort: 5432
+      name: rest
+  selector:
+    app: postgres
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+    certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
+  name: postgres
+  namespace: cpg-examples-patient-community
+spec:
+  rules:
+    - host: postgres-v1.aks.clouditor.io
+      http:
+        paths:
+          - backend:
+              serviceName: postgres
+              servicePort: rest
+            path: /
