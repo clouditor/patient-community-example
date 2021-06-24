@@ -18,14 +18,14 @@ jobs:
       - name: Login Docker Registry
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-        # if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       - name: Build and Push
         run: |
           pushd frontend
             docker build --pull -t "${PREFIX}/examples-frontend-v1:${VERSION}" -t "${PREFIX}/examples-frontend-v1:latest" --build-arg service_version=v1 .
             docker push "${PREFIX}/examples-frontend-v1:latest"
           popd
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -33,7 +33,7 @@ jobs:
         uses: azure/login@v1.1
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       - uses: azure/setup-kubectl@v1
         id: install
       - uses: azure/aks-set-context@v1
@@ -47,7 +47,7 @@ jobs:
           az aks list
           kubectl get nodes
           kubectl get pods
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       # - uses: Azure/k8s-create-secret@v1
       #   with:
       #     namespace: cpg-examples-patient-community
@@ -83,14 +83,14 @@ jobs:
       - name: Login Docker Registry
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       - name: Build and Push
         run: |
           pushd auth-service
             docker build --pull -t "${PREFIX}/examples-auth-service-v1:${VERSION}" -t "${PREFIX}/examples-auth-service-v1:latest" --build-arg service_version=v1 .
             docker push "${PREFIX}/examples-auth-service-v1:latest"
           popd
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -98,7 +98,7 @@ jobs:
         uses: azure/login@v1.1
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       - uses: azure/setup-kubectl@v1
         id: install
       - uses: azure/aks-set-context@v1
@@ -112,7 +112,7 @@ jobs:
           az aks list
           kubectl get nodes
           kubectl get pods
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       - uses: Azure/k8s-deploy@v1
         with:
           namespace: cpg-examples-patient-community
@@ -145,14 +145,14 @@ jobs:
       - name: Login Docker Registry
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       - name: Build and Push
         run: |
           pushd nurse-api
             docker build --pull -t "${PREFIX}/examples-nurse-api-v1:${VERSION}" -t "${PREFIX}/examples-nurse-api-v1:latest" --build-arg service_version=v1 .
             docker push "${PREFIX}/examples-nurse-api-v1:latest"
           popd
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -160,7 +160,7 @@ jobs:
         uses: azure/login@v1.1
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       - uses: azure/setup-kubectl@v1
         id: install
       - uses: azure/aks-set-context@v1
@@ -174,7 +174,7 @@ jobs:
           az aks list
           kubectl get nodes
           kubectl get pods
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       - uses: Azure/k8s-deploy@v1
         with:
           namespace: cpg-examples-patient-community
@@ -201,14 +201,14 @@ jobs:
       - name: Login Docker Registry
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       - name: Build and Push
         run: |
           pushd phr-manager
             docker build --pull -t "${PREFIX}/examples-phr-manager-v1:${VERSION}" -t "${PREFIX}/examples-phr-manager-v1:latest" --build-arg service_version=v1 .
             docker push "${PREFIX}/examples-phr-manager-v1:latest"
           popd
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -216,7 +216,7 @@ jobs:
         uses: azure/login@v1.1
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       - uses: azure/setup-kubectl@v1
         id: install
       - uses: azure/aks-set-context@v1
@@ -230,7 +230,7 @@ jobs:
           az aks list
           kubectl get nodes
           kubectl get pods
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       - uses: Azure/k8s-deploy@v1
         with:
           namespace: cpg-examples-patient-community
@@ -257,14 +257,14 @@ jobs:
       - name: Login Docker Registry
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       - name: Build and Push
         run: |
           pushd statistics
             docker build --pull -t "${PREFIX}/examples-statistics-v1:${VERSION}" -t "${PREFIX}/examples-statistics-v1:latest" --build-arg service_version=v1 .
             docker push "${PREFIX}/examples-statistics-v1:latest"
           popd
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -272,7 +272,7 @@ jobs:
         uses: azure/login@v1.1
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       - uses: azure/setup-kubectl@v1
         id: install
       - uses: azure/aks-set-context@v1
@@ -286,7 +286,7 @@ jobs:
           az aks list
           kubectl get nodes
           kubectl get pods
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       - uses: Azure/k8s-deploy@v1
         with:
           namespace: cpg-examples-patient-community
@@ -313,14 +313,14 @@ jobs:
       - name: Login Docker Registry
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       - name: Build and Push
         run: |
           pushd group-phr-controller
             docker build --pull -t "${PREFIX}/examples-group-phr-controller-v1:${VERSION}" -t "${PREFIX}/examples-group-phr-controller-v1:latest" --build-arg service_version=v1 .
             docker push "${PREFIX}/examples-group-phr-controller-v1:latest"
           popd
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -328,7 +328,7 @@ jobs:
         uses: azure/login@v1.1
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       - uses: azure/setup-kubectl@v1
         id: install
       - uses: azure/aks-set-context@v1
@@ -342,7 +342,7 @@ jobs:
           az aks list
           kubectl get nodes
           kubectl get pods
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       - uses: Azure/k8s-deploy@v1
         with:
           namespace: cpg-examples-patient-community
