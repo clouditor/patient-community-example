@@ -86,7 +86,7 @@ jobs:
         if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       - name: Build and Push
         run: |
-          pushd auth-service
+          pushd auth
             docker build --pull -t "${PREFIX}/examples-auth-service-v1:${VERSION}" -t "${PREFIX}/examples-auth-service-v1:latest" --build-arg service_version=v1 .
             docker push "${PREFIX}/examples-auth-service-v1:latest"
           popd
