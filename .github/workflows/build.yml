@@ -420,6 +420,6 @@ jobs:
         with:
           namespace: cpg-examples-patient-community
           manifests: |
-            kubernetes/postgres.yml
+            kubernetes/mongo.yml
           images: |
             mongo
