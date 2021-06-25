@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: "14"
       - name: Login Docker Registry
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
@@ -29,41 +29,6 @@ jobs:
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
-      - name: Login via Az module
-        uses: azure/login@v1.1
-        with:
-          creds: ${{secrets.AZURE_CREDENTIALS}}
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
-      - uses: azure/setup-kubectl@v1
-        id: install
-      - uses: azure/aks-set-context@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          resource-group: cloud-property-graphs-examples
-          cluster-name: eks
-        id: login
-      - name: Run Az CLI script
-        run: |
-          az aks list
-          kubectl get nodes
-          kubectl get pods
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
-      - uses: Azure/k8s-create-secret@v1
-        with:
-          namespace: cpg-examples-patient-community
-          container-registry-url: ghcr.io
-          container-registry-username: ${{ github.actor }}
-          container-registry-password: ${{ secrets.GITHUB_TOKEN }}
-          secret-name: ghcr-secret
-      - uses: Azure/k8s-deploy@v1
-        with:
-          namespace: cpg-examples-patient-community
-          manifests: |
-            kubernetes/frontend.yml
-          images: |
-            ghcr.io/clouditor/examples-frontend-v1:latest
-          imagepullsecrets: |
-            ghcr-secret
 
   build-auth-service:
     name: Build Authentication Service
@@ -73,7 +38,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: '1.16'
+          go-version: "1.16"
       # - name: Build
       #   run: go build -v ./...
       #   working-directory: auth
@@ -94,34 +59,6 @@ jobs:
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
-      - name: Login via Az module
-        uses: azure/login@v1.1
-        with:
-          creds: ${{secrets.AZURE_CREDENTIALS}}
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
-      - uses: azure/setup-kubectl@v1
-        id: install
-      - uses: azure/aks-set-context@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          resource-group: cloud-property-graphs-examples
-          cluster-name: eks
-        id: login
-      - name: Run Az CLI script
-        run: |
-          az aks list
-          kubectl get nodes
-          kubectl get pods
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
-      - uses: Azure/k8s-deploy@v1
-        with:
-          namespace: cpg-examples-patient-community
-          manifests: |
-            kubernetes/auth-service.yml
-          images: |
-            ghcr.io/clouditor/examples-auth-service-v1:latest
-          imagepullsecrets: |
-            ghcr-secret
 
   build-nurse-api:
     name: Build Nurse API
@@ -156,37 +93,6 @@ jobs:
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
-      - name: Login via Az module
-        uses: azure/login@v1.1
-        with:
-          creds: ${{secrets.AZURE_CREDENTIALS}}
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
-      - uses: azure/setup-kubectl@v1
-        id: install
-      - uses: azure/aks-set-context@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          resource-group: cloud-property-graphs-examples
-          cluster-name: eks
-        id: login
-      - name: Run Az CLI script
-        run: |
-          az aks list
-          kubectl get nodes
-          kubectl get pods
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
-      - name: Create configmap
-        run: |
-          kubectl create configmap config-volume --from-file=deployments/docker-compose/application.yml -o yaml --dry-run | kubectl apply -f -
-      - uses: Azure/k8s-deploy@v1
-        with:
-          namespace: cpg-examples-patient-community
-          manifests: |
-            kubernetes/nurse-api.yml
-          images: |
-            ghcr.io/clouditor/examples-nurse-api-v1:latest
-          imagepullsecrets: |
-            ghcr-secret
 
   build-phr-manager:
     name: Build PHR Manager
@@ -196,11 +102,6 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: "3.x"
-      # - name: Build
-      #   run: |
-      #     python3 -m pip install -r requirements.txt
-      #     python3 -m py_compile app.py
-      #   working-directory: phr-manager
       - name: Login Docker Registry
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
@@ -215,35 +116,7 @@ jobs:
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
-      - name: Login via Az module
-        uses: azure/login@v1.1
-        with:
-          creds: ${{secrets.AZURE_CREDENTIALS}}
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
-      - uses: azure/setup-kubectl@v1
-        id: install
-      - uses: azure/aks-set-context@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          resource-group: cloud-property-graphs-examples
-          cluster-name: eks
-        id: login
-      - name: Run Az CLI script
-        run: |
-          az aks list
-          kubectl get nodes
-          kubectl get pods
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
-      - uses: Azure/k8s-deploy@v1
-        with:
-          namespace: cpg-examples-patient-community
-          manifests: |
-            kubernetes/phr-manager.yml
-          images: |
-            ghcr.io/clouditor/examples-phr-manager-v1:latest
-          imagepullsecrets: |
-            ghcr-secret
-  
+
   build-statistics:
     name: Build Statistics
     runs-on: ubuntu-latest
@@ -271,34 +144,6 @@ jobs:
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
-      - name: Login via Az module
-        uses: azure/login@v1.1
-        with:
-          creds: ${{secrets.AZURE_CREDENTIALS}}
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
-      - uses: azure/setup-kubectl@v1
-        id: install
-      - uses: azure/aks-set-context@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          resource-group: cloud-property-graphs-examples
-          cluster-name: eks
-        id: login
-      - name: Run Az CLI script
-        run: |
-          az aks list
-          kubectl get nodes
-          kubectl get pods
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
-      - uses: Azure/k8s-deploy@v1
-        with:
-          namespace: cpg-examples-patient-community
-          manifests: |
-            kubernetes/statistics.yml
-          images: |
-            ghcr.io/clouditor/examples-statistics-v1:latest
-          imagepullsecrets: |
-            ghcr-secret
 
   build-group-phr-controller:
     name: Build Group PHR Controller
@@ -307,7 +152,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: "3.x"
       # - name: Build
       #   run: |
       #     python3 -m pip install -r requirements.txt
@@ -327,11 +172,24 @@ jobs:
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
+
+  deploy-services:
+    name: Deploy services
+    runs-on: ubuntu-latest
+    needs:
+      - build-group-phr-controller
+      - build-phr-manager
+      - build-statistics
+      - build-frontend
+      - build-auth-service
+      - build-nurse-api
+    if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
+    steps:
+      - uses: actions/checkout@v2
       - name: Login via Az module
         uses: azure/login@v1.1
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
       - uses: azure/setup-kubectl@v1
         id: install
       - uses: azure/aks-set-context@v1
@@ -340,12 +198,43 @@ jobs:
           resource-group: cloud-property-graphs-examples
           cluster-name: eks
         id: login
-      - name: Run Az CLI script
+      - uses: Azure/k8s-create-secret@v1
+        with:
+          namespace: cpg-examples-patient-community
+          container-registry-url: ghcr.io
+          container-registry-username: ${{ github.actor }}
+          container-registry-password: ${{ secrets.GITHUB_TOKEN }}
+          secret-name: ghcr-secret
+      - name: Create configmap
         run: |
-          az aks list
-          kubectl get nodes
-          kubectl get pods
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
+          kubectl create configmap config-volume --from-file=deployments/docker-compose/application.yml -o yaml --dry-run | kubectl apply -f -
+      - uses: Azure/k8s-deploy@v1
+        with:
+          namespace: cpg-examples-patient-community
+          manifests: |
+            kubernetes/nurse-api.yml
+          images: |
+            ghcr.io/clouditor/examples-nurse-api-v1:latest
+          imagepullsecrets: |
+            ghcr-secret
+      - uses: Azure/k8s-deploy@v1
+        with:
+          namespace: cpg-examples-patient-community
+          manifests: |
+            kubernetes/auth-service.yml
+          images: |
+            ghcr.io/clouditor/examples-auth-service-v1:latest
+          imagepullsecrets: |
+            ghcr-secret
+      - uses: Azure/k8s-deploy@v1
+        with:
+          namespace: cpg-examples-patient-community
+          manifests: |
+            kubernetes/phr-manager.yml
+          images: |
+            ghcr.io/clouditor/examples-phr-manager-v1:latest
+          imagepullsecrets: |
+            ghcr-secret
       - uses: Azure/k8s-deploy@v1
         with:
           namespace: cpg-examples-patient-community
@@ -355,16 +244,34 @@ jobs:
             ghcr.io/clouditor/examples-group-phr-controller-v1:latest
           imagepullsecrets: |
             ghcr-secret
+      - uses: Azure/k8s-deploy@v1
+        with:
+          namespace: cpg-examples-patient-community
+          manifests: |
+            kubernetes/statistics.yml
+          images: |
+            ghcr.io/clouditor/examples-statistics-v1:latest
+          imagepullsecrets: |
+            ghcr-secret
+      - uses: Azure/k8s-deploy@v1
+        with:
+          namespace: cpg-examples-patient-community
+          manifests: |
+            kubernetes/frontend.yml
+          images: |
+            ghcr.io/clouditor/examples-frontend-v1:latest
+          imagepullsecrets: |
+            ghcr-secret
 
   deploy-postgres:
-    name: Deploy Postgres DB
+    name: Deploy Databases
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
     steps:
       - name: Login via Az module
         uses: azure/login@v1.1
         with:
-          creds: ${{secrets.AZURE_CREDENTIALS}}         
+          creds: ${{secrets.AZURE_CREDENTIALS}}
       - uses: azure/setup-kubectl@v1
         id: install
       - uses: azure/aks-set-context@v1
@@ -378,25 +285,8 @@ jobs:
           namespace: cpg-examples-patient-community
           manifests: |
             kubernetes/postgres.yml
-   deploy-mongo:
-     name: Deploy Mongo DB
-     runs-on: ubuntu-latest
-     if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
-     steps:
-       - name: Login via Az module
-         uses: azure/login@v1.1
-         with:
-           creds: ${{secrets.AZURE_CREDENTIALS}}
-       - uses: azure/setup-kubectl@v1
-         id: install
-       - uses: azure/aks-set-context@v1
-         with:
-           creds: ${{ secrets.AZURE_CREDENTIALS }}
-           resource-group: cloud-property-graphs-examples
-           cluster-name: eks
-         id: login
-       - uses: Azure/k8s-deploy@v1
-         with:
-           namespace: cpg-examples-patient-community
-           manifests: |
-             kubernetes/mongo.yml
+      - uses: Azure/k8s-deploy@v1
+        with:
+          namespace: cpg-examples-patient-community
+          manifests: |
+            kubernetes/mongo.yml
