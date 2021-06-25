@@ -15,17 +15,22 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "14"
-      - name: Login Docker Registry
-        run: |
-          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
-      - name: Build and Push
+      - name: Docker Build
         run: |
           pushd frontend
             docker build --pull -t "${PREFIX}/examples-frontend-v1:${VERSION}" -t "${PREFIX}/examples-frontend-v1:latest" --build-arg service_version=v1 .
-            docker push "${PREFIX}/examples-frontend-v1:latest"
           popd
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
+        env:
+          PREFIX: ghcr.io/clouditor
+          VERSION: ${{ github.sha }}
+      - name: Login Docker Registry
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+        if: github.ref == 'refs/heads/main'
+      - name: Docker Push
+        run: |
+            docker push "${PREFIX}/examples-frontend-v1:latest"
+        if: github.ref == 'refs/heads/main'
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -45,17 +50,22 @@ jobs:
       # - name: Test
       #   run: go test -v ./...
       #   working-directory: auth
-      - name: Login Docker Registry
-        run: |
-          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
-      - name: Build and Push
+      - name: Docker Build
         run: |
           pushd auth
             docker build --pull -t "${PREFIX}/examples-auth-service-v1:${VERSION}" -t "${PREFIX}/examples-auth-service-v1:latest" --build-arg service_version=v1 .
-            docker push "${PREFIX}/examples-auth-service-v1:latest"
           popd
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
+        env:
+          PREFIX: ghcr.io/clouditor
+          VERSION: ${{ github.sha }}
+      - name: Login Docker Registry
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+        if: github.ref == 'refs/heads/main'
+      - name: Docker Push
+        run: |
+            docker push "${PREFIX}/examples-auth-service-v1:latest"
+        if: github.ref == 'refs/heads/main'
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -79,17 +89,22 @@ jobs:
       #   run: |
       #     ./gradlew --parallel build
       #   working-directory: nurse-api
-      - name: Login Docker Registry
-        run: |
-          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
-      - name: Build and Push
+      - name: Docker Build
         run: |
           pushd nurse-api
             docker build --pull -t "${PREFIX}/examples-nurse-api-v1:${VERSION}" -t "${PREFIX}/examples-nurse-api-v1:latest" --build-arg service_version=v1 .
-            docker push "${PREFIX}/examples-nurse-api-v1:latest"
           popd
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
+        env:
+          PREFIX: ghcr.io/clouditor
+          VERSION: ${{ github.sha }}
+      - name: Login Docker Registry
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+        if: github.ref == 'refs/heads/main'
+      - name: Docker Push
+        run: |
+            docker push "${PREFIX}/examples-nurse-api-v1:latest"
+        if: github.ref == 'refs/heads/main'
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -102,17 +117,22 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: "3.x"
-      - name: Login Docker Registry
-        run: |
-          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
-      - name: Build and Push
+      - name: Docker Build
         run: |
           pushd phr-manager
             docker build --pull -t "${PREFIX}/examples-phr-manager-v1:${VERSION}" -t "${PREFIX}/examples-phr-manager-v1:latest" --build-arg service_version=v1 .
-            docker push "${PREFIX}/examples-phr-manager-v1:latest"
           popd
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
+        env:
+          PREFIX: ghcr.io/clouditor
+          VERSION: ${{ github.sha }}
+      - name: Login Docker Registry
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+        if: github.ref == 'refs/heads/main'
+      - name: Docker Push
+        run: |
+            docker push "${PREFIX}/examples-phr-manager-v1:latest"
+        if: github.ref == 'refs/heads/main'
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -130,17 +150,22 @@ jobs:
       #     python3 -m pip install -r requirements.txt
       #     python3 -m py_compile app.py
       #   working-directory: statistics
-      - name: Login Docker Registry
-        run: |
-          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
-      - name: Build and Push
+      - name: Docker Build
         run: |
           pushd statistics
             docker build --pull -t "${PREFIX}/examples-statistics-v1:${VERSION}" -t "${PREFIX}/examples-statistics-v1:latest" --build-arg service_version=v1 .
-            docker push "${PREFIX}/examples-statistics-v1:latest"
           popd
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
+        env:
+          PREFIX: ghcr.io/clouditor
+          VERSION: ${{ github.sha }}
+      - name: Login Docker Registry
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+        if: github.ref == 'refs/heads/main'
+      - name: Docker Push
+        run: |
+            docker push "${PREFIX}/examples-statistics-v1:latest"
+        if: github.ref == 'refs/heads/main'
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -153,17 +178,22 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: "3.x"
-      - name: Login Docker Registry
-        run: |
-          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
-      - name: Build and Push
+      - name: Build
         run: |
           pushd group-phr-controller
             docker build --pull -t "${PREFIX}/examples-group-phr-controller-v1:${VERSION}" -t "${PREFIX}/examples-group-phr-controller-v1:latest" --build-arg service_version=v1 .
-            docker push "${PREFIX}/examples-group-phr-controller-v1:latest"
           popd
-        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
+        env:
+          PREFIX: ghcr.io/clouditor
+          VERSION: ${{ github.sha }}
+      - name: Login Docker Registry
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+        if: github.ref == 'refs/heads/main'
+      - name: Docker Push
+        run: |
+            docker push "${PREFIX}/examples-group-phr-controller-v1:latest"
+        if: github.ref == 'refs/heads/main'
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -203,7 +233,7 @@ jobs:
           secret-name: ghcr-secret
       - name: Create configmap
         run: |
-          kubectl create configmap config-volume --from-file=deployments/docker-compose/application.yml -o yaml --dry-run | kubectl apply -f -
+          kubectl create configmap config-volume --from-file=deployments/docker-compose/application.yml -n cpg-examples-patient-community -o yaml --dry-run | kubectl apply -f -
       - uses: Azure/k8s-deploy@v1
         with:
           namespace: cpg-examples-patient-community
