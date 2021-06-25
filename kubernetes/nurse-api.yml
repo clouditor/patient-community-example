@@ -28,8 +28,6 @@ spec:
           volumeMounts:
           - name: config-volume
             mountPath: /config
-          securityContext:
-            runAsUser: 1000
       volumes:
         - name: config-volume
           configMap:

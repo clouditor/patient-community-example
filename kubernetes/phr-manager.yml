@@ -27,8 +27,6 @@ spec:
               value: mongo
           ports:
             - containerPort: 8083
-          securityContext:
-            runAsUser: 1000
 ---
 apiVersion: v1
 kind: Service
