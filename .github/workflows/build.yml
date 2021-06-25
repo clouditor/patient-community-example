@@ -30,6 +30,7 @@ jobs:
         run: |
           docker push "${PREFIX}/examples-frontend-v1:latest"
         if: github.ref == 'refs/heads/main'
+        working-directory: frontend
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
