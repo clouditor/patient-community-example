@@ -30,7 +30,7 @@ jobs:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
 
-  build-auth-service:
+  build-auth:
     name: Build Authentication Service
     runs-on: ubuntu-latest
     steps:
@@ -176,7 +176,7 @@ jobs:
       - build-phr-manager
       - build-statistics
       - build-frontend
-      - build-auth-service
+      - build-auth
       - build-nurse-api
       - deploy-postgres
     if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
