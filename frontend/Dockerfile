@@ -4,7 +4,8 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY yarn.lock ./
 RUN yarn install --ignore-engines
 COPY . ./
-RUN npm install react-scripts -g
+RUN npm install react-scripts
+RUN npm install typescript
 RUN yarn run build
 
 FROM nginx:stable-alpine
