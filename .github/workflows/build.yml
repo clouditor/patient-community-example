@@ -183,6 +183,7 @@ jobs:
       - build-frontend
       - build-auth-service
       - build-nurse-api
+      - deploy-postgres
     if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
     steps:
       - uses: actions/checkout@v2
