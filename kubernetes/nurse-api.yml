@@ -31,7 +31,7 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: nurse-api-config
+            name: config-volume
 ---
 apiVersion: v1
 kind: Service
