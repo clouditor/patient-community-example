@@ -1,0 +1,66 @@
+#### nurse-api #####
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nurse-api
+  name: nurse-api
+  namespace: cpg-examples-patient-community
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nurse-api
+  template:
+    metadata:
+      labels:
+        app: nurse-api
+    spec:
+      containers:
+        - image: ghcr.io/clouditor/examples-nurse-api-v1
+          imagePullPolicy: Always
+          name: nurse-api
+          env:
+            - name: AUTH_POSTGRES_HOST
+              value: postgres
+          ports:
+            - containerPort: 8081
+          volumeMounts:
+          - name: config-volume
+            mountPath: /config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: config-volume
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nurse-api
+  namespace: cpg-examples-patient-community
+spec:
+  ports:
+    - port: 8081
+      protocol: TCP
+      targetPort: 8081
+      name: rest
+  selector:
+    app: nurse-api
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+    certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
+  name: nurse-api
+  namespace: cpg-examples-patient-community
+spec:
+  rules:
+    - host: nurse-api-v1.aks.clouditor.io
+      http:
+        paths:
+          - backend:
+              serviceName: nurse-api
+              servicePort: rest
+            path: /
