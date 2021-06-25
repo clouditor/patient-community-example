@@ -36,24 +36,5 @@ spec:
     - port: 5432
       protocol: TCP
       targetPort: 5432
-      name: rest
   selector:
     app: postgres
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  annotations:
-    kubernetes.io/ingress.class: addon-http-application-routing
-    certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
-  name: postgres
-  namespace: cpg-examples-patient-community
-spec:
-  rules:
-    - host: postgres-v1.aks.clouditor.io
-      http:
-        paths:
-          - backend:
-              serviceName: postgres
-              servicePort: rest
-            path: /

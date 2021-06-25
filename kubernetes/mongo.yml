@@ -33,24 +33,5 @@ spec:
     - port: 27001
       protocol: TCP
       targetPort: 27017
-      name: rest
   selector:
     app: mongo
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  annotations:
-    kubernetes.io/ingress.class: addon-http-application-routing
-    certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
-  name: mongo
-  namespace: cpg-examples-patient-community
-spec:
-  rules:
-    - host: mongo-v1.aks.clouditor.io
-      http:
-        paths:
-          - backend:
-              serviceName: mongo
-              servicePort: rest
-            path: /
