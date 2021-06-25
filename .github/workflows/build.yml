@@ -17,9 +17,8 @@ jobs:
           node-version: "14"
       - name: Docker Build
         run: |
-          pushd frontend
-            docker build --pull -t "${PREFIX}/examples-frontend-v1:${VERSION}" -t "${PREFIX}/examples-frontend-v1:latest" --build-arg service_version=v1 .
-          popd
+          docker build --pull -t "${PREFIX}/examples-frontend-v1:${VERSION}" -t "${PREFIX}/examples-frontend-v1:latest" --build-arg service_version=v1 .
+        working-directory: frontend
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -52,9 +51,8 @@ jobs:
       #   working-directory: auth
       - name: Docker Build
         run: |
-          pushd auth
-            docker build --pull -t "${PREFIX}/examples-auth-service-v1:${VERSION}" -t "${PREFIX}/examples-auth-service-v1:latest" --build-arg service_version=v1 .
-          popd
+          docker build --pull -t "${PREFIX}/examples-auth-service-v1:${VERSION}" -t "${PREFIX}/examples-auth-service-v1:latest" --build-arg service_version=v1 .
+        working-directory: auth
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -91,9 +89,8 @@ jobs:
       #   working-directory: nurse-api
       - name: Docker Build
         run: |
-          pushd nurse-api
-            docker build --pull -t "${PREFIX}/examples-nurse-api-v1:${VERSION}" -t "${PREFIX}/examples-nurse-api-v1:latest" --build-arg service_version=v1 .
-          popd
+          docker build --pull -t "${PREFIX}/examples-nurse-api-v1:${VERSION}" -t "${PREFIX}/examples-nurse-api-v1:latest" --build-arg service_version=v1 .
+        working-directory: nurse-api
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -119,9 +116,8 @@ jobs:
           python-version: "3.x"
       - name: Docker Build
         run: |
-          pushd phr-manager
-            docker build --pull -t "${PREFIX}/examples-phr-manager-v1:${VERSION}" -t "${PREFIX}/examples-phr-manager-v1:latest" --build-arg service_version=v1 .
-          popd
+          docker build --pull -t "${PREFIX}/examples-phr-manager-v1:${VERSION}" -t "${PREFIX}/examples-phr-manager-v1:latest" --build-arg service_version=v1 .
+        working-directory: phr-manager
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -152,9 +148,8 @@ jobs:
       #   working-directory: statistics
       - name: Docker Build
         run: |
-          pushd statistics
-            docker build --pull -t "${PREFIX}/examples-statistics-v1:${VERSION}" -t "${PREFIX}/examples-statistics-v1:latest" --build-arg service_version=v1 .
-          popd
+          docker build --pull -t "${PREFIX}/examples-statistics-v1:${VERSION}" -t "${PREFIX}/examples-statistics-v1:latest" --build-arg service_version=v1 .
+        working-directory: statistics
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -180,9 +175,8 @@ jobs:
           python-version: "3.x"
       - name: Build
         run: |
-          pushd group-phr-controller
-            docker build --pull -t "${PREFIX}/examples-group-phr-controller-v1:${VERSION}" -t "${PREFIX}/examples-group-phr-controller-v1:latest" --build-arg service_version=v1 .
-          popd
+          docker build --pull -t "${PREFIX}/examples-group-phr-controller-v1:${VERSION}" -t "${PREFIX}/examples-group-phr-controller-v1:latest" --build-arg service_version=v1 .
+        working-directory: group-phr-controller
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
