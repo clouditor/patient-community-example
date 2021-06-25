@@ -126,14 +126,6 @@ jobs:
   build-nurse-api:
     name: Build Nurse API
     runs-on: ubuntu-latest
-    container:
-      # image: node:14.16
-      # env:
-      #   NODE_ENV: development
-      # ports:
-      #   - 80
-      volumes:
-        - ${PWD}/deployments/docker-compose:/config/
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v2
