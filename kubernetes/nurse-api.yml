@@ -25,8 +25,16 @@ spec:
               value: postgres
           ports:
             - containerPort: 8081
+          volumeMounts:
+          - name: config-volume
+            mountPath: /config
           securityContext:
             runAsUser: 1000
+      volumes:
+        - name: config-volume
+          configMap:
+            name: nurse-api-config
+      restartPolicy: Never
 ---
 apiVersion: v1
 kind: Service
