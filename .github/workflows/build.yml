@@ -64,6 +64,7 @@ jobs:
         run: |
           docker push "${PREFIX}/examples-auth-service-v1:latest"
         if: github.ref == 'refs/heads/main'
+        working-directory: auth        
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -102,6 +103,7 @@ jobs:
         run: |
           docker push "${PREFIX}/examples-nurse-api-v1:latest"
         if: github.ref == 'refs/heads/main'
+        working-directory: nurse-api        
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -129,6 +131,7 @@ jobs:
         run: |
           docker push "${PREFIX}/examples-phr-manager-v1:latest"
         if: github.ref == 'refs/heads/main'
+        working-directory: phr-manager
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -161,6 +164,7 @@ jobs:
         run: |
           docker push "${PREFIX}/examples-statistics-v1:latest"
         if: github.ref == 'refs/heads/main'
+        working-directory: statistics
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -188,6 +192,7 @@ jobs:
         run: |
           docker push "${PREFIX}/examples-group-phr-controller-v1:latest"
         if: github.ref == 'refs/heads/main'
+        working-directory: group-phr-controller
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
