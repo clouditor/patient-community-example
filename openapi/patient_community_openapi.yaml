@@ -246,27 +246,20 @@ components:
         groupId:
           type: string
           description: "The group ID identifies the (assumed) diagnosis"
-        age:
-          type: integer
-        zip:
-          type: integer
-        sex:
+        timestamp:
           type: string
-          enum: [male, female, other]
-        symptoms:
-          type: array
-          items:
-            type: string
+        medication:
+          type: string
+        medication_dosage:
+          type: integer
+        symptom:
+          type: string
+        symptom_strength:
+          type: integer
     Group:
       type: object
-      required:
-      - groupName
       properties:
         groupId:
           type: string
         groupName:
           type: string
-        patients:
-          type: array
-          items:
-            type: string
