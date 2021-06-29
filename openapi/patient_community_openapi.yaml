@@ -173,7 +173,7 @@ paths:
                 type: string
         "403":
           description: "Unauthorized"
-  /api/v1/groupdata:
+  /api/v1/groupdata/{groupId}:
     get:
       tags:
       - "group phr"
@@ -181,11 +181,12 @@ paths:
       description: "Get group phr"
       operationId: "getGroupPhr"
       parameters:
-        - name: patientId
-          in: query
-          description: requires patient id to check in which group he is; then, the group's PHR data can be retrieved
+        - name: groupId
+          in: path
+          required: true
+          description: requires the groupId for the group data to be retrieved
           schema:
-            type: string
+            type: integer
       responses:
         "200":
           description: "OK"
