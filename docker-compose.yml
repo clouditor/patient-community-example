@@ -4,6 +4,8 @@ services:
     container_name: frontend
     ports:
     - 3000:3000
+    depends_on:
+      - auth-service
   auth-service:
     environment:
       AUTH_DEFAULT_PASSWORD: myverysecretpassword
@@ -24,7 +26,7 @@ services:
     ports:
     - 8081:8081
     volumes:
-    - ${PWD}/deployments/docker-compose:/config/
+    - ${PWD}/deployments/docker-compose/nurse_api_config:/config/
   phr-manager:
     environment:
       AUTH_HOST: auth-service
@@ -44,16 +46,26 @@ services:
     container_name: statistics
     ports:
     - 8084:8084
+    depends_on:
+      - mongo
+      - auth-service
   postgres:
     environment:
       POSTGRES_PASSWORD: postgres
     ports:
     - 5432:5432
     image: postgres
+    volumes:
+      - ${PWD}/deployments/docker-compose/postgres_data:/data
+      - ${PWD}/deployments/docker-compose/postgres:/docker-entrypoint-initdb.d/
   mongo:
+    environment: 
+      MONGO_INITDB_DATABASE: patient_data
     ports:
     - 27017:27017
     image: mongo
+    volumes:
+      - ${PWD}/deployments/docker-compose/mongo:/docker-entrypoint-initdb.d/
   group-phr-controller:
     environment:
       AUTH_HOST: auth-service
@@ -65,5 +77,6 @@ services:
     depends_on:
     - postgres
     - mongo
+    - auth-service
     ports:
     - 8085:8085
