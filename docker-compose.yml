@@ -35,7 +35,12 @@ services:
     - mongo
     - auth-service
     ports:
-    - 8083:8083
+    - 8083:8083  
+  disease-service:
+    build: ./disease-service
+    container_name: disease-service
+    ports:
+    - 8085:8085
   statistics:
     environment:
       AUTH_HOST: auth-service
