@@ -233,7 +233,7 @@ jobs:
           secret-name: ghcr-secret
       - name: Create configmap
         run: |
-          kubectl create configmap config-volume --from-file=deployments/docker-compose/application.yml -n cpg-examples-patient-community -o yaml --dry-run | kubectl apply -f -
+          kubectl create configmap config-volume --from-file=deployments/docker-compose/nurse_api_config/application.yml -n cpg-examples-patient-community -o yaml --dry-run | kubectl apply -f -
       - uses: Azure/k8s-deploy@v1
         with:
           namespace: cpg-examples-patient-community
