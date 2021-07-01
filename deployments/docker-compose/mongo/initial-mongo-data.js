@@ -12,7 +12,7 @@ db.records.insertMany([
     user_id: "1",
     group: "Corona",
     timestamp: "2021-06-02T13:18:56+00:00", 
-    medication: "nervous",
+    medication: "respiratory",
     medication_dosage: 7, 
     symptom: "dizzy",
     symptom_strength: 2,
