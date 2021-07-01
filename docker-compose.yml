@@ -42,7 +42,7 @@ services:
     build: ./disease-service
     container_name: disease-service
     ports:
-    - 8085:8085
+    - 8086:8086
   statistics:
     environment:
       AUTH_HOST: auth-service
