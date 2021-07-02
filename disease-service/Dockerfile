@@ -15,5 +15,5 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 8085
+EXPOSE 8086
 CMD [ "node", "disease-service.js" ]
