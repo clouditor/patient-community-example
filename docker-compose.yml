@@ -23,6 +23,8 @@ services:
     build: 
       context: ./nurse-api
     container_name: nurse-api
+    depends_on:
+    - postgres
     ports:
     - 8081:8081
     volumes:
@@ -69,6 +71,7 @@ services:
     ports:
     - 8086:8086
   postgres:
+    container_name: postgres
     environment:
       POSTGRES_PASSWORD: postgres
     ports:
@@ -78,6 +81,7 @@ services:
       - ${PWD}/deployments/docker-compose/postgres_data:/data
       - ${PWD}/deployments/docker-compose/postgres:/docker-entrypoint-initdb.d/
   mongo:
+    container_name: mongo
     environment: 
       MONGO_INITDB_DATABASE: patient_data
     ports:

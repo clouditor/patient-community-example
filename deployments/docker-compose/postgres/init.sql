@@ -1,6 +1,6 @@
 CREATE TABLE users
 (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     username TEXT,
     firstname TEXT,
     lastname TEXT,
@@ -11,7 +11,7 @@ COPY users FROM '/data/data_users.csv' DELIMITER ',' CSV HEADER;
 
 CREATE TABLE groups
 (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     name TEXT
 );
 COPY groups FROM '/data/data_groups.csv' DELIMITER ',' CSV HEADER;
