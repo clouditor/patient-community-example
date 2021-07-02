@@ -237,7 +237,7 @@ jobs:
       - build-auth
       - build-nurse-api
       - build-disease-service
-      - deploy-postgres
+      - deploy-databases
     if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v2
