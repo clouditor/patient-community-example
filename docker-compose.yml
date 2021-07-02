@@ -37,7 +37,7 @@ services:
     - mongo
     - auth-service
     ports:
-    - 8083:8083
+    - 8083:8083  
   statistics:
     environment:
       AUTH_HOST: auth-service
@@ -49,6 +49,25 @@ services:
     depends_on:
       - mongo
       - auth-service
+  group-phr-controller:
+    environment:
+      AUTH_HOST: auth-service
+      AUTH_POSTGRES_HOST: postgres
+      MONGO_HOST: mongo
+    build: 
+      context: ./group-phr-controller
+    container_name: group-phr-controller
+    depends_on:
+    - postgres
+    - mongo
+    - auth-service
+    ports:
+    - 8085:8085
+  disease-service:
+    build: ./disease-service
+    container_name: disease-service
+    ports:
+    - 8086:8086
   postgres:
     environment:
       POSTGRES_PASSWORD: postgres
@@ -66,17 +85,3 @@ services:
     image: mongo
     volumes:
       - ${PWD}/deployments/docker-compose/mongo:/docker-entrypoint-initdb.d/
-  group-phr-controller:
-    environment:
-      AUTH_HOST: auth-service
-      AUTH_POSTGRES_HOST: postgres
-      MONGO_HOST: mongo
-    build: 
-      context: ./group-phr-controller
-    container_name: group-phr-controller
-    depends_on:
-    - postgres
-    - mongo
-    - auth-service
-    ports:
-    - 8085:8085

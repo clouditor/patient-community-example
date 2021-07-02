@@ -198,6 +198,34 @@ jobs:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
 
+  build-disease-service:
+    name: Build Disease Service
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+      - name: Build
+        run: |
+          docker build --pull -t "${PREFIX}/examples-disease-service-v1:${VERSION}" -t "${PREFIX}/examples-disease-service-v1:latest" --build-arg service_version=v1 .
+        working-directory: disease-service
+        env:
+          PREFIX: ghcr.io/clouditor
+          VERSION: ${{ github.sha }}
+      - name: Login Docker Registry
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+        if: github.ref == 'refs/heads/main'
+      - name: Docker Push
+        run: |
+          docker push "${PREFIX}/examples-disease-service-v1:latest"
+        if: github.ref == 'refs/heads/main'
+        working-directory: disease-service
+        env:
+          PREFIX: ghcr.io/clouditor
+          VERSION: ${{ github.sha }}
+
   deploy-services:
     name: Deploy services
     runs-on: ubuntu-latest
@@ -208,7 +236,8 @@ jobs:
       - build-frontend
       - build-auth
       - build-nurse-api
-      - deploy-postgres
+      - build-disease-service
+      - deploy-databases
     if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v2
@@ -288,8 +317,17 @@ jobs:
             ghcr.io/clouditor/examples-frontend-v1:latest
           imagepullsecrets: |
             ghcr-secret
+      - uses: Azure/k8s-deploy@v1
+        with:
+          namespace: cpg-examples-patient-community
+          manifests: |
+            kubernetes/disease-service.yml
+          images: |
+            ghcr.io/clouditor/examples-disease-service-v1:latest
+          imagepullsecrets: |
+            ghcr-secret
 
-  deploy-postgres:
+  deploy-databases:
     name: Deploy Databases
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
