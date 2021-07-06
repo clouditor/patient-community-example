@@ -49,8 +49,8 @@ services:
     ports:
     - 8084:8084
     depends_on:
-      - mongo
-      - auth-service
+    - mongo
+    - auth-service
   postgres:
     container_name: postgres
     environment:
