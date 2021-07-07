@@ -5,7 +5,7 @@ services:
     ports:
     - 3000:3000
     depends_on:
-      - auth-service
+    - auth-service
   auth-service:
     environment:
       AUTH_DEFAULT_PASSWORD: myverysecretpassword
@@ -51,6 +51,25 @@ services:
     depends_on:
     - mongo
     - auth-service
+  group-phr-controller:
+    environment:
+      AUTH_HOST: auth-service
+      AUTH_POSTGRES_HOST: postgres
+      MONGO_HOST: mongo
+    build: 
+      context: ./group-phr-controller
+    container_name: group-phr-controller
+    depends_on:
+    - postgres
+    - mongo
+    - auth-service
+    ports:
+    - 8085:8085
+  disease-service:
+    build: ./disease-service
+    container_name: disease-service
+    ports:
+    - 8086:8086
   postgres:
     container_name: postgres
     environment:
@@ -59,8 +78,8 @@ services:
     - 5432:5432
     image: postgres
     volumes:
-      - ${PWD}/deployments/docker-compose/postgres_data:/data
-      - ${PWD}/deployments/docker-compose/postgres:/docker-entrypoint-initdb.d/
+    - ${PWD}/deployments/docker-compose/postgres_data:/data
+    - ${PWD}/deployments/docker-compose/postgres:/docker-entrypoint-initdb.d/
   mongo:
     container_name: mongo
     environment: 
@@ -69,4 +88,4 @@ services:
     - 27017:27017
     image: mongo
     volumes:
-      - ${PWD}/deployments/docker-compose/mongo:/docker-entrypoint-initdb.d/
+    - ${PWD}/deployments/docker-compose/mongo:/docker-entrypoint-initdb.d/
