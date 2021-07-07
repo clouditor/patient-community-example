@@ -49,27 +49,8 @@ services:
     ports:
     - 8084:8084
     depends_on:
-      - mongo
-      - auth-service
-  group-phr-controller:
-    environment:
-      AUTH_HOST: auth-service
-      AUTH_POSTGRES_HOST: postgres
-      MONGO_HOST: mongo
-    build: 
-      context: ./group-phr-controller
-    container_name: group-phr-controller
-    depends_on:
-    - postgres
     - mongo
     - auth-service
-    ports:
-    - 8085:8085
-  disease-service:
-    build: ./disease-service
-    container_name: disease-service
-    ports:
-    - 8086:8086
   postgres:
     container_name: postgres
     environment:
