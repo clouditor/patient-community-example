@@ -4,6 +4,7 @@ import (
 	"auth"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/oxisto/go-httputil/argon2"
 	"github.com/rs/zerolog/log"
@@ -43,10 +44,23 @@ func Init(useInMemory bool) (err error) {
 			dbname,
 		)
 
-		// otherwise connect to a postgres DB
-		if db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{}); err != nil {
+		//Retry needed, if Postgres DB is not ready
+		for i := 0; i < 5; i++ {
+
+			if db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{}); err != nil {
+				log.Err(err).Msg("error opening db session")
+				log.Info().Msg("retry after error during DB init")
+				time.Sleep(1 * time.Second)
+				continue
+			} else {
+				break
+			}
+		}
+
+		if err != nil {
 			return fmt.Errorf("db postgres connect: %w", err)
 		}
+
 	}
 
 	// Migrate the schema
