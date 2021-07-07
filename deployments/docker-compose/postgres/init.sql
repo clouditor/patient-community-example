@@ -2,10 +2,13 @@ CREATE TABLE users
 (
     id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     username TEXT,
-    firstname TEXT,
-    lastname TEXT,
+    first_name TEXT,
+    last_name TEXT,
     password TEXT,
-    role INT
+    role INT,
+    created_at TEXT,
+    updated_at TEXT,
+    deleted_at TEXT
 );
 COPY users FROM '/data/data_users.csv' DELIMITER ',' CSV HEADER;
 
