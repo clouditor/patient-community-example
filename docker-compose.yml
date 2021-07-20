@@ -5,7 +5,7 @@ services:
     ports:
     - 3000:3000
     depends_on:
-      - auth-service
+    - auth-service
   auth-service:
     environment:
       AUTH_DEFAULT_PASSWORD: myverysecretpassword
@@ -23,6 +23,8 @@ services:
     build: 
       context: ./nurse-api
     container_name: nurse-api
+    depends_on:
+    - postgres
     ports:
     - 8081:8081
     volumes:
@@ -47,8 +49,8 @@ services:
     ports:
     - 8084:8084
     depends_on:
-      - mongo
-      - auth-service
+    - mongo
+    - auth-service
   group-phr-controller:
     environment:
       AUTH_HOST: auth-service
@@ -69,19 +71,21 @@ services:
     ports:
     - 8086:8086
   postgres:
+    container_name: postgres
     environment:
       POSTGRES_PASSWORD: postgres
     ports:
     - 5432:5432
     image: postgres
     volumes:
-      - ${PWD}/deployments/docker-compose/postgres_data:/data
-      - ${PWD}/deployments/docker-compose/postgres:/docker-entrypoint-initdb.d/
+    - ${PWD}/deployments/docker-compose/postgres_data:/data
+    - ${PWD}/deployments/docker-compose/postgres:/docker-entrypoint-initdb.d/
   mongo:
+    container_name: mongo
     environment: 
       MONGO_INITDB_DATABASE: patient_data
     ports:
     - 27017:27017
     image: mongo
     volumes:
-      - ${PWD}/deployments/docker-compose/mongo:/docker-entrypoint-initdb.d/
+    - ${PWD}/deployments/docker-compose/mongo:/docker-entrypoint-initdb.d/

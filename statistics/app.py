@@ -15,13 +15,10 @@ from basic_mondrian_health import health_data_api
 import logging
 import os, sys
 
-mongo_host = os.getenv("MONGO_HOST")
-if mongo_host == None:
-    client = MongoClient("mongodb://localhost:27017/")
-else:    
-    client = MongoClient("mongodb://" + mongo_host + ":27017/")
+mongo_host = "localhost" if (os.environ.get("MONGO_HOST") is None) else os.environ.get("MONGO_HOST")
+phr_db_client = MongoClient("mongodb://" + mongo_host + ":27017/")
 
-db = client.patient_data
+db = phr_db_client.patient_data
 collection = db.records
 
 app = Flask(__name__)
