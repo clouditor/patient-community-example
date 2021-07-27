@@ -1,9 +1,9 @@
 package rest
 
 import (
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-contrib/logger"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
 	"github.com/oxisto/go-httputil/auth"
 	"github.com/rs/zerolog/log"
 	"github.com/sethvargo/go-password/password"

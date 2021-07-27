@@ -12,8 +12,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
 	"github.com/oxisto/go-httputil/argon2"
 	hauth "github.com/oxisto/go-httputil/auth"
 	"github.com/rs/zerolog/log"
