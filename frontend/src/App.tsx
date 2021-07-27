@@ -9,6 +9,7 @@ import { Navbar } from './Navbar';
 import { NewGroup } from './NewGroup';
 import { NewUser } from './NewUser';
 import { Users } from './Users';
+import { CheckSymptoms } from './CheckSymptoms';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/groups/new" component={NewGroup} />
         <Route path="/groups/:id/members/add" component={AddGroupMember} />
         <Route path="/login" component={Login} />
+        <Route path="/diseases" component={CheckSymptoms} />
       </Switch>
     </Router>
   );

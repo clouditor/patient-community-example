@@ -16,5 +16,8 @@ export const Navbar: React.FunctionComponent = () =>
             <li>
                 <Link to={{ pathname: "/login" }}>Login</Link>
             </li>
+            <li>
+                <Link to={{ pathname: "/diseases" }}>Diseases</Link>
+            </li>
         </ul>
     </div >
