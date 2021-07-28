@@ -2,13 +2,6 @@ import React from "react"
 import { Form, Table } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 
-
-class CheckSymptomsRequest {
-    constructor(
-        public symptoms: string[]
-    ) { }
-}
-
 export interface State {
     symptom: string,
     diseases: string[]
@@ -26,23 +19,24 @@ export class CheckSymptoms extends React.Component<{}, State> {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    public handleSubmit(event: any) {
+    public handleSubmit(event: any) {        
         event.preventDefault();
 
         const apiUrl = `/api/v1/diseases`;
         const token = localStorage.getItem("access_token");
 
+        let symptomsArray = this.state.symptom.split(",") // mutliple symptoms can be put in as csv
+
         fetch(apiUrl, {
             method: 'POST',
-            body: JSON.stringify(new CheckSymptomsRequest([this.state.symptom])),
+            body: JSON.stringify(symptomsArray),
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             }
         })
             .then((res) => res.json())
-            .then((diseases: any) => {
-                console.log("received diseases: " + diseases);
+            .then((diseases: string[]) => {
                 this.setState({ diseases: diseases })
             });
     }
@@ -74,7 +68,7 @@ export class CheckSymptoms extends React.Component<{}, State> {
                 </tr>
             </thead>
             <tbody>
-                {diseases.map((disease) =>
+                {diseases.map((disease: string) =>
                     <tr>
                         <td>{disease}</td>
                     </tr>
