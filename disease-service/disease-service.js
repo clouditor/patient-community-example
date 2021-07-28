@@ -22,11 +22,9 @@ app.listen(port, () => {
 })
 
 function getDiseases(symptoms) {
-  console.log("symptoms: " + symptoms)
   let response = []
 
   for (symptom of symptoms){
-    console.log("checking symptom: " + symptom)
     let diseases = symptomsToDiseases.get(symptom);
 
     Array.prototype.push.apply(response, diseases);
