@@ -77,9 +77,6 @@ services:
     ports:
     - 5432:5432
     image: postgres
-    volumes:
-    - ${PWD}/deployments/docker-compose/postgres_data:/data
-    - ${PWD}/deployments/docker-compose/postgres:/docker-entrypoint-initdb.d/
   mongo:
     container_name: mongo
     environment: 
