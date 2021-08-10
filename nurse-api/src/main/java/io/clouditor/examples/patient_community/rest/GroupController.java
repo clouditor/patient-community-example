@@ -1,5 +1,6 @@
 package io.clouditor.examples.patient_community.rest;
 
+import io.clouditor.examples.patient_community.PrivacyLabel;
 import io.clouditor.examples.patient_community.model.Group;
 import io.clouditor.examples.patient_community.persistence.GroupRepository;
 import io.clouditor.examples.patient_community.persistence.UserRepository;
@@ -10,12 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+@PrivacyLabel(level = 1)
 @RestController
 @RequestMapping("/api/v1/groups")
 public class GroupController {
 
   @Autowired GroupRepository groupRepository;
-  @Autowired UserRepository userRepository;
+  @PrivacyLabel(level = 1) @Autowired UserRepository userRepository;
 
   @GetMapping
   public List<Group> listGroups() {
@@ -25,13 +27,15 @@ public class GroupController {
     return groups;
   }
 
+  @PrivacyLabel(level = 1)
   @PostMapping
-  public Group createGroup(@RequestBody CreateGroupRequest request) {
+  public Group createGroup(@PrivacyLabel(level = 1) @RequestBody CreateGroupRequest request) {
     // TODO: check, if there is any validation framework in spring?
     if (request.name == null) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name must not be empty");
     }
 
+    @PrivacyLabel(level = 1)
     var group = new Group();
     group.setName(request.name);
 
