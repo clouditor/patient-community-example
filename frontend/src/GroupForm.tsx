@@ -22,7 +22,7 @@ export const GroupForm: React.FunctionComponent<{ groupId?: number }> = (groupId
     function handleSubmit(event: any) {
         event.preventDefault();
 
-        const apiUrl = `/api/v1/groups`;
+        const apiUrl = process.env.REACT_APP_GROUPS_URL!;
         const token = localStorage.getItem("access_token");
 
         fetch(apiUrl, {

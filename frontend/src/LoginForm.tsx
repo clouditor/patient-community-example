@@ -19,7 +19,7 @@ export const LoginForm: React.FunctionComponent<{}> = () => {
     function handleSubmit(event: any) {
         alert('A name was submitted: ' + username);
         event.preventDefault();
-        const apiUrl = `/auth/login`;
+        const apiUrl = process.env.REACT_APP_AUTH_URL!;
 
         fetch(apiUrl, {
             method: 'POST', body: JSON.stringify({

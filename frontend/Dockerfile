@@ -6,7 +6,8 @@ RUN yarn install --ignore-engines
 COPY . ./
 RUN npm install react-scripts
 RUN npm install typescript
-RUN yarn run build
+RUN npm install env-cmd
+RUN yarn run build:dev
 
 FROM nginx:stable-alpine
 COPY --from=builder /app/build /usr/share/nginx/html
