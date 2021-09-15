@@ -29,6 +29,7 @@ jobs:
       - name: Docker Push
         run: |
           docker push "${PREFIX}/examples-frontend-v1:latest"
+          docker push "${PREFIX}/examples-frontend-v1:${VERSION}"
         if: github.ref == 'refs/heads/main'
         working-directory: frontend
         env:
@@ -64,8 +65,9 @@ jobs:
       - name: Docker Push
         run: |
           docker push "${PREFIX}/examples-auth-service-v1:latest"
+          docker push "${PREFIX}/examples-auth-service-v1:${VERSION}"
         if: github.ref == 'refs/heads/main'
-        working-directory: auth        
+        working-directory: auth
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -103,8 +105,9 @@ jobs:
       - name: Docker Push
         run: |
           docker push "${PREFIX}/examples-nurse-api-v1:latest"
+          docker push "${PREFIX}/examples-nurse-api-v1:${VERSION}"
         if: github.ref == 'refs/heads/main'
-        working-directory: nurse-api        
+        working-directory: nurse-api
         env:
           PREFIX: ghcr.io/clouditor
           VERSION: ${{ github.sha }}
@@ -131,6 +134,7 @@ jobs:
       - name: Docker Push
         run: |
           docker push "${PREFIX}/examples-phr-manager-v1:latest"
+          docker push "${PREFIX}/examples-phr-manager-v1:${VERSION}"
         if: github.ref == 'refs/heads/main'
         working-directory: phr-manager
         env:
@@ -164,6 +168,7 @@ jobs:
       - name: Docker Push
         run: |
           docker push "${PREFIX}/examples-statistics-v1:latest"
+          docker push "${PREFIX}/examples-statistics-v1:${VERSION}"
         if: github.ref == 'refs/heads/main'
         working-directory: statistics
         env:
@@ -192,6 +197,7 @@ jobs:
       - name: Docker Push
         run: |
           docker push "${PREFIX}/examples-group-phr-controller-v1:latest"
+          docker push "${PREFIX}/examples-group-phr-controller-v1:${VERSION}"
         if: github.ref == 'refs/heads/main'
         working-directory: group-phr-controller
         env:
@@ -220,6 +226,7 @@ jobs:
       - name: Docker Push
         run: |
           docker push "${PREFIX}/examples-disease-service-v1:latest"
+          docker push "${PREFIX}/examples-disease-service-v1:${VERSION}"
         if: github.ref == 'refs/heads/main'
         working-directory: disease-service
         env:
@@ -269,7 +276,7 @@ jobs:
           manifests: |
             kubernetes/nurse-api.yml
           images: |
-            ghcr.io/clouditor/examples-nurse-api-v1:latest
+            ghcr.io/clouditor/examples-nurse-api-v1:${{ github.sha }}
           imagepullsecrets: |
             ghcr-secret
       - uses: Azure/k8s-deploy@v1
@@ -278,7 +285,7 @@ jobs:
           manifests: |
             kubernetes/auth-service.yml
           images: |
-            ghcr.io/clouditor/examples-auth-service-v1:latest
+            ghcr.io/clouditor/examples-auth-service-v1:${{ github.sha }}
           imagepullsecrets: |
             ghcr-secret
       - uses: Azure/k8s-deploy@v1
@@ -287,7 +294,7 @@ jobs:
           manifests: |
             kubernetes/phr-manager.yml
           images: |
-            ghcr.io/clouditor/examples-phr-manager-v1:latest
+            ghcr.io/clouditor/examples-phr-manager-v1:${{ github.sha }}
           imagepullsecrets: |
             ghcr-secret
       - uses: Azure/k8s-deploy@v1
@@ -296,7 +303,7 @@ jobs:
           manifests: |
             kubernetes/group-phr-controller.yml
           images: |
-            ghcr.io/clouditor/examples-group-phr-controller-v1:latest
+            ghcr.io/clouditor/examples-group-phr-controller-v1:${{ github.sha }}
           imagepullsecrets: |
             ghcr-secret
       - uses: Azure/k8s-deploy@v1
@@ -305,7 +312,7 @@ jobs:
           manifests: |
             kubernetes/statistics.yml
           images: |
-            ghcr.io/clouditor/examples-statistics-v1:latest
+            ghcr.io/clouditor/examples-statistics-v1:${{ github.sha }}
           imagepullsecrets: |
             ghcr-secret
       - uses: Azure/k8s-deploy@v1
@@ -314,7 +321,7 @@ jobs:
           manifests: |
             kubernetes/frontend.yml
           images: |
-            ghcr.io/clouditor/examples-frontend-v1:latest
+            ghcr.io/clouditor/examples-frontend-v1:${{ github.sha }}
           imagepullsecrets: |
             ghcr-secret
       - uses: Azure/k8s-deploy@v1
@@ -323,7 +330,7 @@ jobs:
           manifests: |
             kubernetes/disease-service.yml
           images: |
-            ghcr.io/clouditor/examples-disease-service-v1:latest
+            ghcr.io/clouditor/examples-disease-service-v1:${{ github.sha }}
           imagepullsecrets: |
             ghcr-secret
 
