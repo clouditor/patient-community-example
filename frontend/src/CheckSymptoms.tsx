@@ -22,7 +22,7 @@ export class CheckSymptoms extends React.Component<{}, State> {
     public handleSubmit(event: any) {        
         event.preventDefault();
 
-        const apiUrl = `/api/v1/diseases`;
+        const apiUrl = process.env.REACT_APP_DISEASE_URL!;
         const token = localStorage.getItem("access_token");
 
         let symptomsArray = this.state.symptom.split(",") // mutliple symptoms can be put in as csv

@@ -32,7 +32,7 @@ export const UserForm: React.FunctionComponent<{ userId?: number }> = (userId) =
     function handleSubmit(event: any) {
         event.preventDefault();
 
-        const apiUrl = `/api/v1/users`;
+        const apiUrl = process.env.REACT_APP_USERS_URL!;
         const token = localStorage.getItem("access_token");
 
         fetch(apiUrl, {

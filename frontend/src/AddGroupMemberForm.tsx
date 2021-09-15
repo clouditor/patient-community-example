@@ -23,7 +23,7 @@ export const AddGroupMemberForm: React.FunctionComponent<{ groupId: number }> = 
     function handleSubmit(event: any) {
         event.preventDefault();
 
-        const apiUrl = `/api/v1/groups/members`;
+        const apiUrl = process.env.REACT_APP_USERS_URL! + `/members`;
         const token = localStorage.getItem("access_token");
 
         fetch(apiUrl, {
