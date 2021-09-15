@@ -3,6 +3,7 @@ package io.clouditor.examples.patient_community.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Table(name = "users")
@@ -29,6 +30,15 @@ public class User {
   @Column(name = "last_name")
   @JsonProperty
   String lastName;
+
+  @Column(name = "deleted_at")
+  Date deletedAt;
+
+  @Column(name = "updated_at")
+  Date updatedAt;
+
+  @Column(name = "created_at")
+  Date createdAt;
 
   /** Do NOT return the password in the JSON representation / REST API. */
   @JsonIgnore String password;
