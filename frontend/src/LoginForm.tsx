@@ -8,10 +8,13 @@ interface LoginResponse {
 };
 
 export const LoginForm: React.FunctionComponent<{}> = () => {
+    @PrivacyLabel(1)
     const [username, setUsername] = useState("");
+    @PrivacyLabel(4)
     const [password, setPassword] = useState("");
     const history = useHistory();
 
+    @Identifier
     function validateForm() {
         return username.length > 0 && password.length > 0;
     }

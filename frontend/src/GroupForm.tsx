@@ -13,7 +13,7 @@ export const GroupForm: React.FunctionComponent<{ groupId?: number }> = (groupId
     // TODO: use one state (the request) and do a shallow merge https://medium.com/@kipropesque/shallow-merging-setstate-and-the-spread-operator-ae8e08697073
     const [name, setName] = useState("");
 
-    const history = useHistory();
+    @PseudoIdentifier const history = useHistory();
 
     function validateForm() {
         return name.length > 0;

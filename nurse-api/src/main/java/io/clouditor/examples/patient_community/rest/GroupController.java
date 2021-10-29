@@ -17,7 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class GroupController {
 
   @Autowired GroupRepository groupRepository;
-  @PrivacyLabel(level = 1) @Autowired UserRepository userRepository;
+  @PrivacyLabel(level = 2) @Autowired UserRepository userRepository;
 
   @GetMapping
   public List<Group> listGroups() {
@@ -27,15 +27,15 @@ public class GroupController {
     return groups;
   }
 
-  @PrivacyLabel(level = 1)
+  @PrivacyLabel(level = 3)
   @PostMapping
-  public Group createGroup(@PrivacyLabel(level = 1) @RequestBody CreateGroupRequest request) {
+  public Group createGroup(@PrivacyLabel(level = 4) @RequestBody CreateGroupRequest request) {
     // TODO: check, if there is any validation framework in spring?
     if (request.name == null) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name must not be empty");
     }
 
-    @PrivacyLabel(level = 1)
+    @PrivacyLabel(level = 5)
     var group = new Group();
     group.setName(request.name);
 

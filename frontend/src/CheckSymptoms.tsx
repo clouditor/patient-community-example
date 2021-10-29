@@ -19,6 +19,7 @@ export class CheckSymptoms extends React.Component<{}, State> {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    @Identifier
     public handleSubmit(event: any) {        
         event.preventDefault();
 

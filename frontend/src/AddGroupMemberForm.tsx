@@ -7,7 +7,7 @@ import { Group } from "./Groups";
 class AddGroupMemberRequest {
     constructor(
         public groupId: number,
-        public userId: number) { }
+        @Identifier public userId: number) { }
 }
 
 export const AddGroupMemberForm: React.FunctionComponent<{ groupId: number }> = (props) => {

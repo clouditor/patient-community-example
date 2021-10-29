@@ -2,7 +2,7 @@ package io.clouditor.examples.patient_community.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.clouditor.examples.patient_community.model.User;
-
+@Identifier
 public class CreateUserRequest {
 
   @JsonProperty String username;
