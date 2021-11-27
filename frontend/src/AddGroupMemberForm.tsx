@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { useHistory } from "react-router-dom";
 import { Group } from "./Groups";
 
+@PseudoIdentifier
 class AddGroupMemberRequest {
     constructor(
         public groupId: number,

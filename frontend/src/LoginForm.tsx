@@ -16,6 +16,7 @@ export const LoginForm: React.FunctionComponent<{}> = () => {
         return username.length > 0 && password.length > 0;
     }
 
+    @PseudoIdentifier
     function handleSubmit(event: any) {
         alert('A name was submitted: ' + username);
         event.preventDefault();

@@ -4,7 +4,8 @@ import Button from 'react-bootstrap/Button';
 
 export interface State {
     symptom: string,
-    diseases: string[]
+    diseases: string[],
+    username: username
 }
 
 export class CheckSymptoms extends React.Component<{}, State> {
@@ -14,11 +15,13 @@ export class CheckSymptoms extends React.Component<{}, State> {
 
         this.state = {
             symptom: 'amnesia',
-            diseases: ['Corona']
+            diseases: ['Corona'],
+            username: ''
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    @PseudoIdentifier
     public handleSubmit(event: any) {        
         event.preventDefault();
 
@@ -29,7 +32,10 @@ export class CheckSymptoms extends React.Component<{}, State> {
 
         fetch(apiUrl, {
             method: 'POST',
-            body: JSON.stringify(symptomsArray),
+            body: JSON.stringify({
+                "symptoms": symptomsArray,
+                "username": this.state.username
+            }),
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -42,7 +48,7 @@ export class CheckSymptoms extends React.Component<{}, State> {
     }
 
     public render() {
-        const { symptom, diseases } = this.state;
+        const { symptom, diseases, username } = this.state;
 
         return <div>
         <div style={{ width: 200, marginLeft: "auto", marginRight: "auto" }}>
@@ -53,6 +59,15 @@ export class CheckSymptoms extends React.Component<{}, State> {
                     autoFocus
                     type="text"
                     value={symptom}
+                    onChange={(e) => this.setState({symptom: e.target.value})}
+                />
+            </Form.Group>
+            <Form.Group controlId="username">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                    autoFocus
+                    type="text"
+                    value={username}
                     onChange={(e) => this.setState({symptom: e.target.value})}
                 />
             </Form.Group>

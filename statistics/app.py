@@ -56,8 +56,9 @@ def list_statistics():
     cursor = collection.find({}, {"_id": 0, "group": 1, "timestamp": 1, "medication": 1, "medication_dosage": 1, "symptom": 1, "symptom_strength": 1})
     cursor = list(cursor)
     
-    anonymized_data = health_data_api.anonymize_mongo_data(cursor)
-
+    # T1 and T3 assume that the anonymization here is not done (well)
+    # anonymized_data = health_data_api.anonymize_mongo_data(cursor)
+    anonymized_data = cursor
     return str(anonymized_data), 200
 
 if __name__ == '__main__':

@@ -63,6 +63,7 @@ def list_groupdata(group_id=0):
     try:
         group_ids_list = []
         
+        # T2
         user_db.execute("""SELECT group_id FROM group_members WHERE user_id=(%s)""", (user_id))
         rows = user_db.fetchall()
 
@@ -78,6 +79,7 @@ def list_groupdata(group_id=0):
         return json.dumps({"error": "user_db request"}), 500
 
     
+    # T2
     # Now we can retrieve the group_data
     # Get group_data for requested group_id
     records = phr_db_collection.find({"group_id": group_id})
@@ -88,9 +90,13 @@ def list_groupdata(group_id=0):
     for item in json_data:
         item["user_id"] = item["user_id"].replace(user_id, hash_user_id(user_id))
 
+    # T4
     return json_util.dumps(json_data), 200
 
 def hash_user_id(user_id):
+    #@Identifier
+    test = "test"
+    logging.info(test)
     return hashlib.md5(user_id.encode()).hexdigest()
 
 if __name__ == '__main__':

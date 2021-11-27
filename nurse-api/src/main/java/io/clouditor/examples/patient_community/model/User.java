@@ -25,10 +25,12 @@ public class User {
 
   @Column(name = "first_name")
   @JsonProperty
+  // Policy non-compliance threat (disproportionate collection/processing/storage)
   String firstName;
 
   @Column(name = "last_name")
   @JsonProperty
+  // Policy non-compliance threat (disproportionate collection/processing/storage)
   String lastName;
 
   @Column(name = "deleted_at")
