@@ -4,7 +4,6 @@ import Button from 'react-bootstrap/Button';
 import { useHistory } from "react-router-dom";
 import { Group } from "./Groups";
 
-@PseudoIdentifier
 class AddGroupMemberRequest {
     constructor(
         public groupId: number,
@@ -18,9 +17,10 @@ export const AddGroupMemberForm: React.FunctionComponent<{ groupId: number }> = 
     const history = useHistory();
 
     function validateForm() {
-        return userId != undefined;
+        return userId !== undefined;
     }
 
+    //@PseudoIdentifier
     function handleSubmit(event: any) {
         event.preventDefault();
 

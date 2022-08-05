@@ -8,7 +8,9 @@ interface LoginResponse {
 };
 
 export const LoginForm: React.FunctionComponent<{}> = () => {
-    const [username, setUsername] = useState("");
+    //const [username, setUsername] = useState("");
+    //@PseudoIdentifier
+    const [username, setUsername] = useState("")
     const [password, setPassword] = useState("");
     const history = useHistory();
 
@@ -16,7 +18,7 @@ export const LoginForm: React.FunctionComponent<{}> = () => {
         return username.length > 0 && password.length > 0;
     }
 
-    @PseudoIdentifier
+    //@PseudoIdentifier
     function handleSubmit(event: any) {
         alert('A name was submitted: ' + username);
         event.preventDefault();

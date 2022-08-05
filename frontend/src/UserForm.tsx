@@ -4,7 +4,6 @@ import Button from 'react-bootstrap/Button';
 import { useHistory } from "react-router-dom";
 import { User } from "./Users";
 
-@Identifier
 class CreateUserRequest {
     constructor(
         public username: string = "",
@@ -30,6 +29,7 @@ export const UserForm: React.FunctionComponent<{ userId?: number }> = (userId) =
             password.length > 0;
     }
 
+    //@Identifier
     function handleSubmit(event: any) {
         event.preventDefault();
 

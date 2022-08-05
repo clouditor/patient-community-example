@@ -10,6 +10,7 @@ import { NewGroup } from './NewGroup';
 import { NewUser } from './NewUser';
 import { Users } from './Users';
 import { CheckSymptoms } from './CheckSymptoms';
+import { PhrForm } from './PhrForm';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/groups/:id/members/add" component={AddGroupMember} />
         <Route path="/login" component={Login} />
         <Route path="/diseases" component={CheckSymptoms} />
+        <Route path="/phr" component={PhrForm} />
       </Switch>
     </Router>
   );
