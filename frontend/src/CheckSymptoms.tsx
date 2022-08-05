@@ -3,9 +3,10 @@ import { Form, Table } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 
 export interface State {
+    //@PseudoIdentifier 
     symptom: string,
     diseases: string[],
-    username: username
+    username: string
 }
 
 export class CheckSymptoms extends React.Component<{}, State> {
@@ -21,7 +22,6 @@ export class CheckSymptoms extends React.Component<{}, State> {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    @PseudoIdentifier
     public handleSubmit(event: any) {        
         event.preventDefault();
 
