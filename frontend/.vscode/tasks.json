@@ -4,7 +4,7 @@
 		{
 			"label": "react-scripts: start",
 			"type": "npm",
-			"script": "start",
+			"script": "start:dev",
 			"problemMatcher": "$tsc-watch",
 			"detail": "react-scripts start",
 			"isBackground": true,
