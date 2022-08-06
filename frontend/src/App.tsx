@@ -5,6 +5,7 @@ import './App.css';
 import { Groups } from './Groups';
 import { Home } from './Home';
 import { Login } from './Login';
+import { Phr } from './Phr';
 import { Navbar } from './Navbar';
 import { NewGroup } from './NewGroup';
 import { NewUser } from './NewUser';
@@ -25,7 +26,11 @@ function App() {
         <Route path="/groups/:id/members/add" component={AddGroupMember} />
         <Route path="/login" component={Login} />
         <Route path="/diseases" component={CheckSymptoms} />
+<<<<<<< HEAD
         <Route path="/phr" component={PhrForm} />
+=======
+        <Route path="/phr" component={Phr} />
+>>>>>>> main
       </Switch>
     </Router>
   );

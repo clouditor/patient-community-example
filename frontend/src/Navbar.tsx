@@ -20,7 +20,11 @@ export const Navbar: React.FunctionComponent = () =>
                 <Link to={{ pathname: "/diseases" }}>Diseases</Link>
             </li>
             <li>
+<<<<<<< HEAD
                 <Link to={{ pathname: "/phr" }}>Submit PHR</Link>
+=======
+                <Link to={{ pathname: "/phr" }}>PHR Data</Link>
+>>>>>>> main
             </li>
         </ul>
     </div >
