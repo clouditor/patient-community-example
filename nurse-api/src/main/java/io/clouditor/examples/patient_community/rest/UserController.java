@@ -49,9 +49,6 @@ public class UserController {
       throw new ResponseStatusException(HttpStatus.CONFLICT, "User already exists");
     }
 
-    // TODO: Possibly add access to PHR data here, e.g. check if this user already has data in the MongoDB, so
-    // T2 is present
-
     repository.save(user);
 
     return user;

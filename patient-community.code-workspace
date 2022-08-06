@@ -1,0 +1,27 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "auth"
+		},
+		{
+			"path": "nurse-api"
+		},
+		{
+			"path": "frontend"
+		},
+		{
+			"path": "phr-manager"
+		},
+		{
+			"path": "group-phr-controller"
+		},
+		{
+			"path": "statistics"
+		},
+	],
+	"settings": {
+	}
+}

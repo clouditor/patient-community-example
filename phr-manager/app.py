@@ -38,12 +38,12 @@ app.config["JWT_ALGORITHM"] = "ES256"
 @app.route("/api/v1/data", methods=['POST'])
 @jwt_required()
 def post_data():
-    user_id = get_jwt_identity()
+    # In a secure application, the user id should be taken from the jwt: user_id = get_jwt_identity()
     claims = get_jwt()
 
     content = request.json
-
-    print("content: ", content)
+    user_id = content["userId"]
+    group_id = content["groupId"]
 
     if content is None:
         return json.dumps({"error": "Empty content"}), 400
@@ -51,6 +51,20 @@ def post_data():
     if claims["scope"] != "patient":
         return json.dumps({"error": "Invalid scope"}), 403
 
+    # check if user is in the group that is specified in the PHR
+    group_ids_list = []
+    user_db.execute("""SELECT group_id FROM group_members WHERE user_id=(%s)""", (user_id))
+    rows = user_db.fetchall()
+
+    for row in rows:
+        group_ids_list.append(row[0])
+
+    # Checks if requesting user has the requested group_id
+    # D5: a user can try to request data for another user/group combination and learn about which user is in which group
+    if group_id not in group_ids_list:
+        return json.dumps({"error": "user is not in the specified group"}), 404
+
+    # TODO is the content correctly stored here, i.e. including symptom, strength, etc.?
     if sys.version_info.minor > 9:
         phr = {"user_id": user_id} | content #only python 3.9+
     else:
@@ -59,7 +73,9 @@ def post_data():
 
     phr_id = collection.insert_one(phr).inserted_id
 
-    logging.info("Inserted record %s" % phr_id)
+    # NR2: user's sensitive action is logged
+    logging.info("User %s submitted record %s", user_id, phr_id)
+    logging.info("Inserted record %s", phr_id)
 
     return json_util.dumps(phr), 200
 

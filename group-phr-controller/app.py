@@ -51,7 +51,9 @@ app.config["JWT_ALGORITHM"] = "ES256"
 @app.route("/api/v1/groupdata/<int:group_id>", methods=['GET'])
 @jwt_required()
 def list_groupdata(group_id=0):
-    user_id = get_jwt_identity()
+    # In a secure application the user id should be taken from the jwt: user_id = get_jwt_identity()
+    content = request.json
+    user_id = content["user_id"]
     claims = get_jwt()
     # records = []
 
@@ -71,8 +73,9 @@ def list_groupdata(group_id=0):
             group_ids_list.append(row[0])
 
         # Checks if requesting user has the requested group_id
+        # D5: a user can try to request data for another user/group combination and learn about which user is in which group
         if group_id not in group_ids_list:
-            return json.dumps({"error": "user has no permission for the requested group_id"}), 403
+            return json.dumps({"error": "user is not member of the specified group"}), 404
 
     except Exception as e:
         print("err: ", e)

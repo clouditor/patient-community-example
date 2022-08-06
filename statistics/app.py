@@ -57,6 +57,7 @@ def list_statistics():
     cursor = list(cursor)
     
     # T1 and T3 assume that the anonymization here is not done (well)
+    # @Anon<Identifier>
     # anonymized_data = health_data_api.anonymize_mongo_data(cursor)
     anonymized_data = cursor
     return str(anonymized_data), 200

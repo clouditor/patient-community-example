@@ -3,21 +3,21 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const readline = require('readline');
 var fs = require('fs');
-const app = express();
+const disease_app = express();
 const port = 8086;
 
 let symptomsToDiseases = initSymptomsToDiseasesMap()
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+disease_app.use(bodyParser.urlencoded({ extended: false }));
+disease_app.use(bodyParser.json());
 
-app.post('/api/v1/diseases', (req, res) => {
+disease_app.post('/api/v1/diseases', function (req, res) {
   let symptoms = req.body;
 
   return res.json(getDiseases(symptoms));
 });
 
-app.listen(port, () => {
+disease_app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
 

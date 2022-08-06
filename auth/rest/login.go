@@ -87,6 +87,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	//@Identifier
 	var user auth.User
 
 	err = db.Get().Where("username = ?", request.Username).First(&user).Error
@@ -105,7 +106,7 @@ func Login(c *gin.Context) {
 	err = argon2.CompareHashAndPassword([]byte(user.Password), []byte(request.Password))
 
 	if errors.Is(err, argon2.ErrMismatchedHashAndPassword) {
-		c.JSON(http.StatusUnauthorized, NewErrorResponse("invalid credentials"))
+		c.JSON(http.StatusUnauthorized, NewErrorResponse("invalid password"))
 		return
 	} else if err != nil {
 		panic(err)
