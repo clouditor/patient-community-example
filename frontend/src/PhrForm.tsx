@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { Form } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
-<<<<<<< HEAD
 
 export const PhrForm: React.FunctionComponent<{}> = () => {
     //@PseudoIdentifier
@@ -28,25 +27,10 @@ export const PhrForm: React.FunctionComponent<{}> = () => {
     
     function handleSubmit(event: any) {
         alert('PHR data was submitted');
-=======
-import { useHistory } from "react-router-dom";
-
-export const PhrForm: React.FunctionComponent<{}> = () => {
-    const [phr_data, setPhr_data] = useState("");
-
-    function validateForm() {
-        return phr_data.length > 0;
-    }
-    
-    //@PseudoIdentifier
-    function handleSubmit(event: any) {
-        alert('PHR data was submitted: ' + phr_data);
->>>>>>> main
         event.preventDefault();
         const apiUrl = process.env.REACT_APP_PHR_URL!;
 
         fetch(apiUrl, {
-<<<<<<< HEAD
             method: 'POST', 
             headers: {
                 'Authorization': "Bearer " + localStorage.getItem("access_token"),
@@ -59,16 +43,11 @@ export const PhrForm: React.FunctionComponent<{}> = () => {
                 "symptomStrength": symptomStrength,
                 "medication": medication,
                 "medicationDosage": medicationDosage,
-=======
-            method: 'POST', body: JSON.stringify({
-                "phr_data": phr_data
->>>>>>> main
             })
         })
-            .then((res) => res.json())
+        .then((res) => res.json())
     }
 
-<<<<<<< HEAD
     return (
         <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formUserId">
@@ -131,18 +110,6 @@ export const PhrForm: React.FunctionComponent<{}> = () => {
                     placeholder="Enter medication dosage" 
                     value={medicationDosage}
                     onChange={(e) => setMedicationDosage(e.target.value)}
-=======
-    // TODO: align phr data model
-    return (
-        <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="PHR Data">
-                <Form.Label>PHR</Form.Label>
-                <Form.Control
-                    autoFocus
-                    type="text"
-                    value={phr_data}
-                    onChange={(e) => setPhr_data(e.target.value)}
->>>>>>> main
                 />
             </Form.Group>
             <Button block size="lg" type="submit" disabled={!validateForm()}>

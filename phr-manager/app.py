@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from this import d
 from jwt.algorithms import ECAlgorithm
 from pymongo import MongoClient
 from flask_jwt_extended import JWTManager
@@ -14,7 +15,18 @@ import logging
 import jwt
 import json
 import requests
+import psycopg2
 
+# user_db connection (PostgreSQL)
+postgres_host = os.environ.get("AUTH_POSTGRES_HOST", "localhost")
+user = os.environ.get("AUTH_POSTGRES_USER", "postgres")
+password = os.environ.get("AUTH_POSTGRES_PASSWORD", "postgres")
+dbname = os.environ.get("AUTH_POSTGRES_DB", "postgres")
+
+user_db_con = psycopg2.connect(database=dbname, user=user, password=password, host=postgres_host)
+
+# create a cursor
+user_db = user_db_con.cursor()
 
 mongo_host = "localhost" if (os.environ.get("MONGO_HOST") is None) else os.environ.get("MONGO_HOST")
 client = MongoClient("mongodb://" + mongo_host + ":27017/")
@@ -58,7 +70,6 @@ def post_data():
 
     for row in rows:
         group_ids_list.append(row[0])
-
     # Checks if requesting user has the requested group_id
     # D5: a user can try to request data for another user/group combination and learn about which user is in which group
     if group_id not in group_ids_list:
@@ -97,7 +108,7 @@ def list_data():
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         logging.info("start at port 8083")
-        app.run(host='0.0.0.0', port=8083, debug=True, threaded=True)
+        app.run(host='127.0.0.1', port=8083, debug=True, threaded=True)
 
     p = int(sys.argv[1])
     logging.info("start at port %s" % (p))

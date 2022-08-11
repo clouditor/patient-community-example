@@ -86,23 +86,41 @@ func Get() *gorm.DB {
 
 func createInitialAdmin() (err error) {
 	var (
-		initialPassword  string
-		initialUsername  string
-		initialFirstName string
-		initialLastName  string
-		passwordBytes    []byte
+		initialPassword         string
+		initialUsername         string
+		initialFirstName        string
+		initialLastName         string
+		initialPatientPassword  string
+		initialPatientUsername  string
+		initialPatientFirstName string
+		initialPatientLastName  string
+		passwordBytes           []byte
+		patientPasswordBytes    []byte
 	)
 
 	initialUsername = "NurseRatched"
 	initialFirstName = "Nurse"
 	initialLastName = "Ratched"
+	initialPatientUsername = "PatientZero"
+	initialPatientFirstName = "Patient"
+	initialPatientLastName = "Zero"
 
 	initialPassword, err = password.GenerateIfNotInEnv("AUTH_DEFAULT_PASSWORD", 16, 2, 0, false, true)
 	if err != nil {
 		return fmt.Errorf("password generate: %w", err)
 	}
 
+	initialPatientPassword, err = password.GenerateIfNotInEnv("AUTH_DEFAULT_PASSWORD", 16, 2, 0, false, true)
+	if err != nil {
+		return fmt.Errorf("password generate: %w", err)
+	}
+
 	passwordBytes, err = argon2.GenerateFromPassword([]byte(initialPassword))
+	if err != nil {
+		return fmt.Errorf("hashing: %w", err)
+	}
+
+	patientPasswordBytes, err = argon2.GenerateFromPassword([]byte(initialPatientPassword))
 	if err != nil {
 		return fmt.Errorf("hashing: %w", err)
 	}
@@ -119,8 +137,20 @@ func createInitialAdmin() (err error) {
 		return fmt.Errorf("db: %w", err)
 	}
 
+	err = db.Create(&auth.User{
+		Username:  initialPatientUsername,
+		FirstName: initialPatientFirstName,
+		LastName:  initialPatientLastName,
+		Password:  string(patientPasswordBytes),
+		Role:      auth.RolePatient}).Error
+
+	if err != nil {
+		return fmt.Errorf("db: %w", err)
+	}
+
 	// Print out our initial password on the console
 	log.Info().Msgf("Created initial admin user (%s) with password: %s\n", initialUsername, initialPassword)
+	log.Info().Msgf("Created initial patient user (%s) with password: %s\n", initialPatientUsername, initialPatientPassword)
 
 	return nil
 }

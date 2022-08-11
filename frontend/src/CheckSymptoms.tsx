@@ -68,7 +68,7 @@ export class CheckSymptoms extends React.Component<{}, State> {
                     autoFocus
                     type="text"
                     value={username}
-                    onChange={(e) => this.setState({symptom: e.target.value})}
+                    onChange={(e) => this.setState({username: e.target.value})}
                 />
             </Form.Group>
             <Button block size="lg" type="submit">

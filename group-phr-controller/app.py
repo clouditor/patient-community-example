@@ -48,12 +48,10 @@ app.config["JWT_ALGORITHM"] = "ES256"
 
 # TODO psuedonymization configurable?
 
-@app.route("/api/v1/groupdata/<int:group_id>", methods=['GET'])
+@app.route("/api/v1/groupdata/groupid/<int:group_id>/userid/<int:user_id>", methods=['GET'])
 @jwt_required()
-def list_groupdata(group_id=0):
+def list_groupdata(group_id=0, user_id=0):
     # In a secure application the user id should be taken from the jwt: user_id = get_jwt_identity()
-    content = request.json
-    user_id = content["user_id"]
     claims = get_jwt()
     # records = []
 

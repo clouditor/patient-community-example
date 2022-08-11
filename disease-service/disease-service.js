@@ -12,7 +12,7 @@ disease_app.use(bodyParser.urlencoded({ extended: false }));
 disease_app.use(bodyParser.json());
 
 disease_app.post('/api/v1/diseases', function (req, res) {
-  let symptoms = req.body;
+  let symptoms = req.body.symptoms;
 
   return res.json(getDiseases(symptoms));
 });

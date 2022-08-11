@@ -8,7 +8,6 @@ interface LoginResponse {
 };
 
 export const LoginForm: React.FunctionComponent<{}> = () => {
-    //const [username, setUsername] = useState("");
     //@PseudoIdentifier
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("");
@@ -30,11 +29,11 @@ export const LoginForm: React.FunctionComponent<{}> = () => {
                 "password": password
             })
         })
-            .then((res) => res.json())
-            .then((response: LoginResponse) => {
-                history.push("/");
-                localStorage.setItem("access_token", response.access_token);
-            });
+        .then((res) => res.json())
+        .then((response: LoginResponse) => {
+            history.push("/");
+            localStorage.setItem("access_token", response.access_token);
+        });
     }
 
     return (
