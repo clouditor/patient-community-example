@@ -75,7 +75,6 @@ def post_data():
     if group_id not in group_ids_list:
         return json.dumps({"error": "user is not in the specified group"}), 404
 
-    # TODO is the content correctly stored here, i.e. including symptom, strength, etc.?
     if sys.version_info.minor > 9:
         phr = {"user_id": user_id} | content #only python 3.9+
     else:
@@ -86,7 +85,6 @@ def post_data():
 
     # NR2: user's sensitive action is logged
     logging.info("User %s submitted record %s", user_id, phr_id)
-    logging.info("Inserted record %s", phr_id)
 
     return json_util.dumps(phr), 200
 

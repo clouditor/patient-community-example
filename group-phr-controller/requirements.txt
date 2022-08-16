@@ -3,7 +3,7 @@ cffi==1.15.1
 chardet==4.0.0
 click==8.0.0
 cryptography==3.4.7
-ctypes_snappy==1.03
+ctypes_snappy==1.02
 Cython==0.29.32
 dl==0.1.0
 dnspython==2.2.1
