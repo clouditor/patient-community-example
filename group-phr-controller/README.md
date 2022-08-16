@@ -10,8 +10,8 @@ python3 -m pip install -r requirements.txt
 
 ## Usage
 
-Get a `ACCESS_TOKEN` from the auth server.
+Get an `ACCESS_TOKEN` from the auth server.
 
 ```
-curl -H "Authorization: Bearer $ACCESS_TOKEN" -v localhost:8085/api/v1/groupdata/<group_id>
+curl -H "Authorization: Bearer $ACCESS_TOKEN" -v localhost:8085/api/v1/groupdata/<group_id>/userid/<user_id>
 ```

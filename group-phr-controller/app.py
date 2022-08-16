@@ -46,11 +46,9 @@ app.config["JWT_PUBLIC_KEY"] = ECAlgorithm.from_jwk(
 
 app.config["JWT_ALGORITHM"] = "ES256"
 
-# TODO psuedonymization configurable?
-
 @app.route("/api/v1/groupdata/groupid/<int:group_id>/userid/<int:user_id>", methods=['GET'])
 @jwt_required()
-def list_groupdata(group_id=0, user_id=0):
+def list_groupdata(group_id, user_id):
     # In a secure application the user id should be taken from the jwt: user_id = get_jwt_identity()
     claims = get_jwt()
     # records = []
@@ -63,8 +61,8 @@ def list_groupdata(group_id=0, user_id=0):
     try:
         group_ids_list = []
         
-        # T2
-        user_db.execute("""SELECT group_id FROM group_members WHERE user_id=(%s)""", (user_id))
+        # ID7: the service accesses the user database which contains identifiers
+        user_db.execute("""SELECT group_id FROM group_members WHERE user_id=(%s)""", (str(user_id)))
         rows = user_db.fetchall()
 
         for row in rows:
@@ -80,8 +78,7 @@ def list_groupdata(group_id=0, user_id=0):
         return json.dumps({"error": "user_db request"}), 500
 
     
-    # T2
-    # Now we can retrieve the group_data
+    # L7: the service accesses both the user DB and the PHR DB and can link the data
     # Get group_data for requested group_id
     records = phr_db_collection.find({"group_id": group_id})
     
@@ -96,9 +93,7 @@ def list_groupdata(group_id=0, user_id=0):
 
 def hash_user_id(user_id):
     #@Identifier
-    test = "test"
-    logging.info(test)
     return hashlib.md5(user_id.encode()).hexdigest()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8085, debug=True, threaded=True)
+    app.run(host='127.0.0.1', port=8085, debug=True, threaded=True)

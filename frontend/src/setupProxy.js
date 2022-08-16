@@ -37,9 +37,9 @@ module.exports = function (app) {
     app.use(
         '/api/v1/groupdata',
         createProxyMiddleware({
-            target: 'http://localhost:8085',
+            target: 'http://127.0.0.1:8085',
             changeOrigin: true,
-        })
+        })    
     );
 
     app.use(
@@ -50,5 +50,4 @@ module.exports = function (app) {
             onProxyReq: fixRequestBody,
         })
     );
-    app.use(bodyParser.json())
 };
