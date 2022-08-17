@@ -6,7 +6,7 @@ This repository contains an example cloud service for a Patient Community, inspi
 
 **WARNING!**
 
-This application exhibits privacy and security weaknesses! Do not deploy it on any Internet-facing servers or using real personal data, as they can be compromised. We do not take responsibility for the way in which any one uses this application. 
+This application exhibits deliberate privacy and security weaknesses! Do not deploy it on any Internet-facing servers or using real personal data, as they can be compromised. We do not take responsibility for the way in which any one uses this application. 
 
 ## LINDDUN 
 LINDDUN [3] is a privacy threat modeling approach similar to STRIDE (which is for security threat modeling).
