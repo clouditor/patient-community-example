@@ -87,14 +87,17 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	//@Identifier
 	var user auth.User
 
 	err = db.Get().Where("username = ?", request.Username).First(&user).Error
 
-	// do NOT return 404 here; we should not differentiate between user
-	// not found and invalid password for security reasons
+	// Logging threat
+	log.Info().Msgf("Got login request from user %s", user)
+
+	// Detectability threat
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusUnauthorized, NewErrorResponse("invalid credentials"))
+		c.JSON(http.StatusNotFound, NewErrorResponse("User not found"))
 		return
 	} else if err != nil {
 		panic(err)
@@ -103,7 +106,7 @@ func Login(c *gin.Context) {
 	err = argon2.CompareHashAndPassword([]byte(user.Password), []byte(request.Password))
 
 	if errors.Is(err, argon2.ErrMismatchedHashAndPassword) {
-		c.JSON(http.StatusUnauthorized, NewErrorResponse("invalid credentials"))
+		c.JSON(http.StatusUnauthorized, NewErrorResponse("invalid password"))
 		return
 	} else if err != nil {
 		panic(err)

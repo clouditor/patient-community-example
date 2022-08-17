@@ -29,6 +29,7 @@ export const UserForm: React.FunctionComponent<{ userId?: number }> = (userId) =
             password.length > 0;
     }
 
+    //@Identifier
     function handleSubmit(event: any) {
         event.preventDefault();
 

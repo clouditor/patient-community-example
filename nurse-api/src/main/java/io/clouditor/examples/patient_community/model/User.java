@@ -2,8 +2,8 @@ package io.clouditor.examples.patient_community.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.persistence.*;
 import java.sql.Date;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -25,10 +25,13 @@ public class User {
 
   @Column(name = "first_name")
   @JsonProperty
+  // Policy non-compliance threat (disproportionate collection/processing/storage)
   String firstName;
 
   @Column(name = "last_name")
   @JsonProperty
+  // Policy non-compliance threat (disproportionate collection/processing/storage)
+  // @Identifier
   String lastName;
 
   @Column(name = "deleted_at")

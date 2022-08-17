@@ -1,4 +1,5 @@
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const { createProxyMiddleware, fixRequestBody } = require('http-proxy-middleware');
+var bodyParser = require('body-parser')
 
 module.exports = function (app) {
     app.use(
@@ -30,6 +31,23 @@ module.exports = function (app) {
         createProxyMiddleware({
             target: 'http://localhost:8081',
             changeOrigin: true,
+        })
+    );
+
+    app.use(
+        '/api/v1/groupdata',
+        createProxyMiddleware({
+            target: 'http://127.0.0.1:8085',
+            changeOrigin: true,
+        })    
+    );
+
+    app.use(
+        '/api/v1/data',
+        createProxyMiddleware({
+            target: 'http://127.0.0.1:8083',
+            changeOrigin: true,
+            onProxyReq: fixRequestBody,
         })
     );
 };

@@ -11,6 +11,7 @@ import { NewGroup } from './NewGroup';
 import { NewUser } from './NewUser';
 import { Users } from './Users';
 import { CheckSymptoms } from './CheckSymptoms';
+import { GetGroupPhr } from './GetGroupPhr';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/diseases" component={CheckSymptoms} />
         <Route path="/phr" component={Phr} />
+        <Route path="/getgroupphr" component={GetGroupPhr} />
       </Switch>
     </Router>
   );

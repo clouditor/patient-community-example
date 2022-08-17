@@ -17,13 +17,14 @@ export const AddGroupMemberForm: React.FunctionComponent<{ groupId: number }> = 
     const history = useHistory();
 
     function validateForm() {
-        return userId != undefined;
+        return userId !== undefined;
     }
 
+    //@PseudoIdentifier
     function handleSubmit(event: any) {
         event.preventDefault();
 
-        const apiUrl = process.env.REACT_APP_USERS_URL! + `/members`;
+        const apiUrl = process.env.REACT_APP_GROUPS_URL! + `/members`;
         const token = localStorage.getItem("access_token");
 
         fetch(apiUrl, {
