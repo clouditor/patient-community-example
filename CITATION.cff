@@ -19,7 +19,5 @@ preferred-citation:
   doi: "10.1145/3548606.3564253"
   title: "Poster: Patient Community -- A Test Bed for Privacy Threat Analysis"
   year: 2022
-  conference: 
-  - name: "2022 ACM SIGSAC Conference on Computer and Communications Security"
-    location: "Los Angeles, CA, USA"
-  issue: "CCS '22"
+  conference: "CCS '22"
+
