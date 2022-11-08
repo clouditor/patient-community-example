@@ -1,0 +1,25 @@
+preferred-citation:
+  type: conference-paper
+  authors:
+  - family-names: "Kunz"
+    given-names: "Immanuel"
+    orcid: "https://orcid.org/0000-0002-4669-0030"
+  - family-names: "Schneider"
+    given-names: "Angelika"
+    orcid: "https://orcid.org/0000-0002-8962-3276"
+  - family-names: "Banse"
+    given-names: "Christian"
+    orcid: "https://orcid.org/0000-0002-4874-0273"
+  - family-names: "Weiss"
+    given-names: "Konrad"
+    orcid: "https://orcid.org/0000-0002-1282-2162"
+  - family-names: "Binder"
+    given-names: "Andreas"
+    orcid: "https://orcid.org/0000-0002-1282-2162"
+  doi: "10.1145/3548606.3564253"
+  title: "Poster: Patient Community -- A Test Bed for Privacy Threat Analysis"
+  year: 2022
+  conference: 
+  - name: "2022 ACM SIGSAC Conference on Computer and Communications Security"
+    location: "Los Angeles, CA, USA"
+  issue: "CCS '22"
