@@ -58,6 +58,8 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: phr-manager
-              servicePort: rest
+              service:
+                name: phr-manager
+                port: 
+                  name: rest
             path: /

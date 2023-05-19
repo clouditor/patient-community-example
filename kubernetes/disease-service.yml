@@ -51,6 +51,8 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: disease-service
-              servicePort: rest
+              service:
+                name: disease-service
+                port: 
+                  name: rest
             path: /

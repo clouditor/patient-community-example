@@ -51,6 +51,8 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: frontend
-              servicePort: rest
+              service:
+                    name: frontend
+                    port: 
+                      name: rest
             path: /
