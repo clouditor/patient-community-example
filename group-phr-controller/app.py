@@ -1,18 +1,16 @@
 #!/usr/bin/env python3
 
 from jwt.algorithms import ECAlgorithm
-from pymongo import MongoClient, database
+from pymongo import MongoClient
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import get_jwt
 from flask_jwt_extended import jwt_required
-from flask_jwt_extended import get_jwt_identity
-from flask import Flask, request
+from flask import Flask
 from bson import json_util
 import json
 import requests
 import os
 import psycopg2
-from configparser import ConfigParser
 import hashlib
 
 # user_db connection (PostgreSQL)

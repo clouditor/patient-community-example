@@ -6,12 +6,10 @@ from flask_jwt_extended import JWTManager
 from flask_jwt_extended import get_jwt
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import create_access_token
 from flask import Flask, request
 from bson import json_util
 import sys, os
 import logging
-import jwt
 import json
 import requests
 import psycopg2
