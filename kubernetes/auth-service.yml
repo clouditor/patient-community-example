@@ -63,3 +63,4 @@ spec:
                 port: 
                   name: rest
             path: /
+            pathType: Prefix
