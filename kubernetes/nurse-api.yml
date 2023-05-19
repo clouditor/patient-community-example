@@ -61,6 +61,8 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: nurse-api
-              servicePort: rest
+              service:
+                name: nurse-api
+                port: 
+                  name: rest
             path: /

@@ -58,6 +58,8 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: group-phr-controller
-              servicePort: rest
+              service:
+                name: group-phr-controller
+                port: 
+                  name: rest
             path: /
