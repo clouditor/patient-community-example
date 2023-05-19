@@ -38,6 +38,7 @@ services:
     depends_on:
     - mongo
     - auth-service
+    - postgres
     ports:
     - 8083:8083  
   statistics:

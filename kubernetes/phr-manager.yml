@@ -25,6 +25,8 @@ spec:
               value: auth-service
             - name: MONGO_HOST
               value: mongo
+            - name: AUTH_POSTGRES_HOST
+              value: postgres
           ports:
             - containerPort: 8083
 ---
